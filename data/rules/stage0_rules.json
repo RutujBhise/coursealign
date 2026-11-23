@@ -1,0 +1,69 @@
+{
+  "_about": "Every rule Stage 0 uses lives in this file. Changing behavior means editing this file, not the code. In Step 5, the feedback loop adds rules here from human review decisions.",
+
+  "outcome_section_headers": [
+    "learning outcomes", "learning goals", "learning objectives",
+    "course outcomes", "course goals", "course objectives",
+    "what you'll learn", "objectives", "outcomes"
+  ],
+
+  "stop_section_headers": [
+    "grading", "assessment", "evaluation", "prerequisite", "textbook",
+    "required text", "materials", "schedule", "late policy", "academic",
+    "office hours", "attendance", "note on"
+  ],
+
+  "bloom_verbs": {
+    "remember":   ["define", "list", "recall", "identify", "name", "state", "recognize"],
+    "understand": ["understand", "explain", "describe", "summarize", "classify", "interpret", "discuss"],
+    "apply":      ["apply", "use", "implement", "write", "execute", "configure", "deploy", "demonstrate", "solve"],
+    "analyze":    ["analyze", "compare", "contrast", "differentiate", "examine", "debug"],
+    "evaluate":   ["evaluate", "assess", "critique", "justify", "judge", "defend"],
+    "create":     ["create", "design", "build", "develop", "construct", "produce", "formulate", "compose", "plan", "model"]
+  },
+
+  "_topic_tags_note": "Each topic lists the words that mean it. Terms match as whole words with an optional plural 's'. Generic words (team, component, pipeline, strategy, design) are left out on purpose because they show up everywhere and would create fake overlaps.",
+  "topic_tags": {
+    "html-css":           ["html", "semantic html", "css", "css grid", "flexbox"],
+    "responsive-design":  ["responsive", "responsive design", "mobile-first", "breakpoint", "media query", "media queries"],
+    "frontend-ui":        ["user interface", "ui", "frontend", "front-end", "dom"],
+    "react":              ["react", "usestate", "useeffect", "jsx", "functional components", "spa", "single-page application"],
+    "rest-api":           ["rest api", "restful", "api", "endpoint", "routing", "http status codes"],
+    "node-express":       ["node.js", "nodejs", "express", "express.js", "middleware"],
+    "sql":                ["sql", "query", "queries", "joins", "subquery", "subqueries", "aggregation", "group by", "window function", "cte"],
+    "relational-db":      ["relational", "relational database", "database", "postgresql", "postgres", "mysql", "sqlite"],
+    "data-modeling":      ["model data", "data model", "data modeling", "schema", "schema design", "er diagram", "er modeling", "entity-relationship", "normalization", "normalized", "1nf", "3nf", "bcnf", "foreign key", "cardinality"],
+    "authentication":     ["authentication", "auth", "jwt", "oauth", "login", "logout", "signup", "sign-up", "bcrypt", "hashed passwords", "password hashing"],
+    "authorization":      ["authorization", "role-based access", "rbac", "protected routes", "access control"],
+    "security":           ["security", "secure", "xss", "csrf", "sql injection", "vulnerability", "vulnerabilities"],
+    "testing":            ["test", "tested", "testing", "unit test", "integration test", "system test", "end-to-end", "e2e", "test case", "test suite", "test coverage"],
+    "test-planning":      ["test strategy", "test strategies", "test plan", "test planning"],
+    "tdd":                ["tdd", "test-driven development", "test driven development", "test-first"],
+    "deployment":         ["deploy", "deployed", "deploying", "deployment", "cloud", "heroku", "railway", "aws", "azure", "staging"],
+    "ci-cd":              ["ci/cd", "github actions", "continuous integration", "continuous deployment", "continuous delivery"],
+    "performance":        ["performance", "optimization", "profiling", "lighthouse", "bottleneck", "latency"],
+    "query-optimization": ["query optimization", "query plan", "indexing", "indexes", "explain analyze"],
+    "transactions":       ["transaction", "acid", "isolation level", "concurrency", "dirty read", "phantom read", "non-repeatable read"],
+    "nosql":              ["nosql", "mongodb", "document store", "document database", "cap theorem", "key-value store"],
+    "db-admin":           ["database administration", "backup", "pg_dump", "user roles", "user permissions", "permissions", "pg_stat_statements"],
+    "monitoring":         ["monitor", "monitoring", "logging", "alerting", "observability", "application health", "incident"],
+    "design-patterns":    ["design pattern", "observer", "singleton", "factory pattern", "strategy pattern"],
+    "refactoring":        ["refactoring", "refactor", "code smell"],
+    "architecture":       ["architecture", "architectural", "monolith", "monolithic", "microservice", "architecture decision record", "adr"],
+    "requirements":       ["requirements", "requirements gathering", "decompose", "decomposing", "decomposition", "user story", "user stories"],
+    "agile":              ["agile", "scrum", "sprint", "standup", "stand-up", "retro", "retrospective", "kanban"],
+    "git":                ["git", "branching", "pull request", "pr", "code review", "merge request", "version control"],
+    "communication":      ["communicate", "communication", "presentation", "design document", "documentation", "technical writing", "written report"],
+    "code-quality":       ["static analysis", "linting", "linter", "code quality", "code style"],
+    "containers":         ["docker", "dockerfile", "container", "containerization", "kubernetes"],
+    "teamwork":           ["teamwork", "collaboration", "collaborate", "pair programming"]
+  },
+
+  "triage": {
+    "auto_match_min_shared_graded_topics": 2,
+    "common_topic_share": 0.5,
+    "common_topic_min_assignments": 3,
+    "_common_note": "A topic found in more than this share of a course's assignments (and in at least this many) is background for that course, like 'database' in a database course. It can still send a pair to the agent but can't count toward an auto-match. Set the share to 1.0 to turn the rule off.",
+    "_note": "Auto-match needs this many topics shared with the assignment's title + rubric. Raise it to send more pairs to the agent (safer, costs more). Lower it to save calls and risk more wrong matches."
+  }
+}

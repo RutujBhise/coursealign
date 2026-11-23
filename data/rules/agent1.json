@@ -1,0 +1,25 @@
+{
+  "_about": "Rules and settings for Agent 1, the syllabus reader. The rules go into its prompt word for word, so editing them changes how it behaves. Everything below the rules is enforced by code, whatever the prompt says.",
+
+  "rules": [
+    "List every learning outcome the text states: skills or knowledge students are expected to gain.",
+    "Outcomes are often written in paragraphs, as goals or expectations, rather than as a list, and one paragraph or even one sentence can state several. Give each its own entry with its own quote.",
+    "Never add an outcome the text doesn't state, and don't use outside knowledge about the course or the field.",
+    "Write each outcome as one sentence that starts with one of the allowed verbs.",
+    "For evidence, copy the words in the text that state the outcome, exactly, as one continuous quote with no ellipses. Code checks every quote against the text.",
+    "Set stated_not_assessed to true only when the text says the outcome won't be assessed or graded.",
+    "Confidence is how clearly the text states the outcome: 0.9 or higher for an explicit goal, 0.6 to 0.8 for a clear but indirect expectation, below 0.6 for a topic that's only mentioned.",
+    "If the text states no learning outcomes, return an empty list."
+  ],
+
+  "confidence": {
+    "accept_at": 0.8,
+    "pass_with_review_at": 0.6,
+    "_note": "At or above accept_at: passes. Between the two: passes, flagged for human review. Below pass_with_review_at: held for human review and not used downstream."
+  },
+
+  "quote_words": {"min": 3, "max": 40},
+
+  "max_attempts": 2,
+  "_max_attempts_note": "If a reply fails a check, the agent sees the failures and tries again, up to this many attempts in total. Whatever still fails after the last attempt is dropped and logged."
+}

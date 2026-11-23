@@ -1,0 +1,14 @@
+# Python 3.10+
+#
+# Steps 1-2 use only the standard library. Steps 3-5 also run offline on the
+# standard library (with a small stand-in when LangGraph isn't installed).
+langgraph
+anthropic
+google-genai        # optional: Gemini, which has a free tier
+# Step 6: the API
+fastapi
+uvicorn
+#
+# Tests: pytest tests/   (httpx is needed for the API tests)
+pytest
+httpx

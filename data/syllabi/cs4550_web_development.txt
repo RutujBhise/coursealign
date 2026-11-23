@@ -1,0 +1,45 @@
+CS 4550 – Web Development
+Fall 2026 | Prof. Sarah Chen | MWF 10:35–11:40
+
+COURSE DESCRIPTION
+This course covers modern full-stack web development. We'll build real applications
+using industry tools and frameworks. By the end of the semester, students should 
+feel comfortable building and deploying a complete web application.
+
+WHAT YOU'LL LEARN
+After completing this course, students will be able to:
+1. Build responsive user interfaces using React and modern CSS (Flexbox, Grid)
+2. Design and implement RESTful APIs using Node.js and Express
+3. Model data and write efficient queries using SQL and relational databases
+4. Apply authentication and authorization patterns (JWT, OAuth) to secure web apps
+5. Write unit, integration, and end-to-end tests for both client and server code
+6. Deploy applications to cloud platforms and configure CI/CD pipelines
+
+Students are also expected to develop strong debugging skills and learn to read 
+documentation independently, though these won't be formally assessed.
+
+GRADING POLICY
+Participation: 10% — Attendance and in-class exercises
+Assignments: 40% — Weekly coding assignments (8 total)
+Midterm Project: 20% — Pair project, full-stack app
+Final Project: 30% — Solo capstone, deployed application
+
+LATE POLICY
+Assignments submitted after the deadline lose 10% per day, up to 3 days.
+No submissions accepted after 3 days without prior approval.
+
+ACADEMIC INTEGRITY
+All work must be your own. Use of AI coding assistants is permitted but must be
+documented. See university policy for details.
+
+SCHEDULE (abbreviated)
+Week 1-2: HTML, CSS, responsive design
+Week 3-4: JavaScript fundamentals, DOM manipulation  
+Week 5-6: React components, state, props, hooks
+Week 7-8: Node.js, Express, REST API design
+Week 9: MIDTERM PROJECT DUE
+Week 10-11: SQL, PostgreSQL, data modeling
+Week 12: Authentication, security
+Week 13: Testing strategies
+Week 14: Deployment, CI/CD
+Week 15: FINAL PROJECT DUE

@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+
+      - name: Python tests (rules, agents with stand-ins, review loop, service, API, contrast)
+        run: pytest tests/ -q
+
+      - name: The whole pipeline, offline
+        run: |
+          python3 step4_agent2.py
+          python3 step5_review.py
+          python3 step6_api.py --check
+          python3 step8_eval.py --runs 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      # After your first install, commit web/package-lock.json and switch this to `npm ci`.
+      - name: Install dashboard packages
+        working-directory: web
+        run: npm install
+      - name: Type-check the dashboard
+        working-directory: web
+        run: npm run typecheck
+      - name: Install Chromium for Playwright
+        working-directory: web
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end and WCAG 2.1 AA tests
+        working-directory: web
+        run: npx playwright test
+      - name: Keep the Playwright report when something fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: web/playwright-report

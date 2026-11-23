@@ -1,0 +1,40 @@
+CS 3200: Database Management Systems
+Instructor: Dr. Michael Torres
+Term: Fall 2026
+
+Overview:
+Databases are the backbone of nearly every software system. This course gives you
+a thorough grounding in both theory and practice. You'll learn to think about data
+at scale — how to model it, store it, query it, and keep it consistent.
+
+Course Goals:
+The primary goal is to make you fluent in relational database design. You should
+be able to look at a business problem and produce a normalized schema that handles
+edge cases. We also want you to master SQL — not just SELECT statements, but
+complex joins, subqueries, window functions, and performance optimization through
+indexing and query plans. Transaction management and ACID properties are covered
+extensively because real systems fail and you need to know what happens when they do.
+
+We'll spend the last third of the semester on non-relational approaches. You'll
+work with document stores (MongoDB) and understand when NoSQL is the right choice
+versus when it's a hype-driven mistake.
+
+By the end you should also be comfortable with database administration basics —
+backup strategies, user permissions, and monitoring query performance in production.
+
+Prerequisites: CS 2500, CS 3500
+
+Evaluation:
+  Homework (5 assignments)     30%
+  Midterm Exam                 25%
+  Final Exam                   25%
+  Group Project                20%
+
+The group project requires teams of 3-4 to design and implement a database-backed
+application. You'll submit an ER diagram, normalized schema, sample queries, and
+a brief written report analyzing your design tradeoffs.
+
+Textbook: "Database System Concepts" by Silberschatz, Korth, Sudarshan (7th ed.)
+Recommended: "Designing Data-Intensive Applications" by Martin Kleppmann
+
+Office Hours: Tuesdays 2-4pm, Thursdays 1-3pm, or by appointment

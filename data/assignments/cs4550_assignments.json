@@ -1,0 +1,82 @@
+[
+  {
+    "id": "A1",
+    "course": "CS4550",
+    "title": "Personal Portfolio Site",
+    "type": "assignment",
+    "description": "Build a responsive personal portfolio using HTML and CSS. Must include navigation, project showcase grid, and contact form. Site must work on mobile (375px) and desktop (1440px).",
+    "rubric_keywords": ["responsive design", "CSS Grid", "Flexbox", "semantic HTML", "mobile-first"],
+    "points": 100,
+    "week": 2
+  },
+  {
+    "id": "A2",
+    "course": "CS4550",
+    "title": "Interactive Task Manager",
+    "type": "assignment",
+    "description": "Build a task manager SPA using React. Features: add/edit/delete tasks, filter by status, persist to localStorage. Must use functional components and hooks.",
+    "rubric_keywords": ["React", "useState", "useEffect", "component design", "event handling"],
+    "points": 100,
+    "week": 5
+  },
+  {
+    "id": "A3",
+    "course": "CS4550",
+    "title": "REST API for Task Manager",
+    "type": "assignment",
+    "description": "Build a Node.js/Express REST API for the task manager. Endpoints for CRUD operations on tasks and users. Include input validation and error handling middleware.",
+    "rubric_keywords": ["REST", "Express", "routing", "middleware", "error handling", "HTTP status codes"],
+    "points": 100,
+    "week": 7
+  },
+  {
+    "id": "A4",
+    "course": "CS4550",
+    "title": "Database Integration",
+    "type": "assignment",
+    "description": "Connect your REST API to PostgreSQL. Design a schema for tasks, users, and categories. Write migrations and seed scripts. Implement at least 3 complex queries using joins.",
+    "rubric_keywords": ["PostgreSQL", "SQL", "schema design", "migrations", "joins", "foreign keys"],
+    "points": 100,
+    "week": 10
+  },
+  {
+    "id": "A5",
+    "course": "CS4550",
+    "title": "Auth Implementation",
+    "type": "assignment",
+    "description": "Add JWT-based authentication to your API. Implement signup, login, logout, and protected routes. Store hashed passwords. Add role-based access (admin vs regular user).",
+    "rubric_keywords": ["JWT", "bcrypt", "authentication", "authorization", "protected routes"],
+    "points": 100,
+    "week": 12
+  },
+  {
+    "id": "MP",
+    "course": "CS4550",
+    "title": "Midterm Project — Pair Full-Stack App",
+    "type": "project",
+    "description": "In pairs, build a full-stack web application of your choice. Must include React frontend, Express API, PostgreSQL database, and user authentication. Graded on functionality, code quality, and documentation.",
+    "rubric_keywords": ["full-stack", "React", "Express", "PostgreSQL", "documentation", "collaboration"],
+    "points": 200,
+    "week": 9
+  },
+  {
+    "id": "FP",
+    "course": "CS4550",
+    "title": "Final Capstone — Deployed Application",
+    "type": "project",
+    "description": "Solo project: build and deploy a complete web application to a cloud platform (Heroku, Railway, or AWS). Must include CI/CD pipeline via GitHub Actions. Graded on functionality, deployment, and a live demo presentation.",
+    "rubric_keywords": ["deployment", "CI/CD", "GitHub Actions", "cloud", "presentation", "full-stack"],
+    "points": 300,
+    "week": 15
+  },
+  {
+    "id": "A6",
+    "course": "CS4550",
+    "title": "Performance Optimization Lab",
+    "type": "assignment",
+    "description": "Profile your capstone application using Lighthouse and Chrome DevTools. Identify and fix at least 3 performance bottlenecks. Write a report documenting before/after metrics.",
+    "rubric_keywords": ["Lighthouse", "performance", "optimization", "profiling", "metrics"],
+    "points": 50,
+    "week": 14
+  }
+]

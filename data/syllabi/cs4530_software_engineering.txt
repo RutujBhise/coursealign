@@ -1,0 +1,50 @@
+CS4530 Fundamentals of Software Engineering
+
+Instructor: Prof. Amy Zhao | Fall 2026
+Lecture: Tue/Fri 9:50-11:30am | Location: Shillman 105
+
+About This Course
+
+Software engineering is about building software that works, that you can maintain, 
+and that other people can understand. This course bridges the gap between writing 
+code that runs and writing code that ships.
+
+Topics and Learning Goals
+
+DESIGN & ARCHITECTURE
+- Understand and apply common design patterns (Observer, Strategy, Factory, etc.)
+- Evaluate architectural tradeoffs between monolithic and microservice approaches
+- Practical experience decomposing requirements into software components
+
+COLLABORATION & PROCESS  
+- Work effectively in agile teams using Scrum practices (sprints, standups, retros)
+- Use Git workflows (branching, PRs, code review) in a team setting
+- Communicate technical decisions clearly in design documents and presentations
+
+QUALITY & TESTING
+- Develop comprehensive test strategies spanning unit, integration, and system tests
+- Apply test-driven development (TDD) as a design tool, not just verification
+- Use static analysis and linting to maintain code quality
+
+DEPLOYMENT & OPERATIONS
+- Build and maintain CI/CD pipelines using GitHub Actions
+- Understand containerization basics (Docker) and why it matters for reproducibility
+- Monitor application health and respond to production incidents
+
+Assessment Breakdown:
+  Individual assignments (4)        25%
+  Team project (semester-long)      40%
+  Class participation               10%  
+  Final individual reflection       10%
+  Peer evaluations                  15%
+
+NOTE ON THE TEAM PROJECT:
+Teams of 4-5 will build a real application for an external client. Past clients
+have included local nonprofits, university departments, and startups. You'll go
+through the full lifecycle: requirements gathering, design, implementation, testing,
+deployment, and handoff. This is the closest thing to a real job you'll get in a
+classroom.
+
+Academic Honesty:
+Standard university policies apply. Code review and pair programming are encouraged.
+Using AI tools is allowed with attribution.

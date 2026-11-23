@@ -1,0 +1,62 @@
+[
+  {
+    "id": "IA1",
+    "course": "CS4530",
+    "title": "Design Pattern Refactoring",
+    "type": "assignment",
+    "description": "Given a poorly structured codebase (a chat application), identify 3 code smells and refactor using appropriate design patterns. Write a 1-page justification for each pattern choice. Must include before/after UML diagrams.",
+    "rubric_keywords": ["design patterns", "refactoring", "code smells", "UML", "Observer", "Strategy"],
+    "points": 100,
+    "week": 3
+  },
+  {
+    "id": "IA2",
+    "course": "CS4530",
+    "title": "Architecture Decision Record",
+    "type": "assignment",
+    "description": "For your team project, write 2 Architecture Decision Records (ADRs). Each must state the context, decision, alternatives considered, and consequences. Present one ADR to the class (5 min).",
+    "rubric_keywords": ["architecture", "ADR", "tradeoffs", "monolith", "microservice", "presentation"],
+    "points": 100,
+    "week": 6
+  },
+  {
+    "id": "IA3",
+    "course": "CS4530",
+    "title": "CI/CD Pipeline Setup",
+    "type": "assignment",
+    "description": "Set up a GitHub Actions CI/CD pipeline for your team project. Must include: linting, unit tests, build step, and deployment to a staging environment. Document the pipeline in a README.",
+    "rubric_keywords": ["GitHub Actions", "CI/CD", "linting", "deployment", "staging", "Docker"],
+    "points": 100,
+    "week": 10
+  },
+  {
+    "id": "IA4",
+    "course": "CS4530",
+    "title": "Test Strategy Document",
+    "type": "assignment",
+    "description": "Write a test strategy for your team project covering unit, integration, and system test layers. Identify what to test at each layer and why. Include at least 5 concrete test cases per layer with expected outcomes.",
+    "rubric_keywords": ["test strategy", "unit tests", "integration tests", "system tests", "test cases"],
+    "points": 100,
+    "week": 8
+  },
+  {
+    "id": "TP",
+    "course": "CS4530",
+    "title": "Semester Team Project",
+    "type": "project",
+    "description": "Teams of 4-5 build a real application for an external client. Full lifecycle: requirements gathering, design, implementation, testing, deployment, and client handoff. Evaluated across 4 sprint demos + final delivery. Must include test suite, CI/CD, and documentation.",
+    "rubric_keywords": ["agile", "sprints", "client", "requirements", "design", "testing", "deployment", "handoff", "Git", "code review"],
+    "points": 400,
+    "week": 15
+  },
+  {
+    "id": "REFLECT",
+    "course": "CS4530",
+    "title": "Final Individual Reflection",
+    "type": "assignment",
+    "description": "Write a 2-3 page reflection on your experience in the team project. What went well? What would you do differently? How did you handle conflict or disagreement? What did you learn about yourself as a software engineer?",
+    "rubric_keywords": ["reflection", "teamwork", "lessons learned", "communication"],
+    "points": 100,
+    "week": 15
+  }
+]

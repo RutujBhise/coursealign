@@ -1,0 +1,47 @@
+{
+  "_about": "Hand-written stand-ins for model replies, used by step3_agent1.py --llm fake. CS3200's first reply has one paraphrased quote on purpose, so the evidence check and the retry loop get exercised. These are not model output, and numbers computed from them say nothing about a model.",
+
+  "CS3200": [
+    {"outcomes": [
+      {"outcome": "Design normalized relational schemas that handle a business problem's edge cases",
+       "evidence": "produce a normalized schema that handles edge cases", "confidence": 0.95, "stated_not_assessed": false},
+      {"outcome": "Write complex SQL queries using joins, subqueries, and window functions",
+       "evidence": "master SQL - not just SELECT statements, but complex joins, subqueries, window functions", "confidence": 0.95, "stated_not_assessed": false},
+      {"outcome": "Use indexing and query plans to improve query performance",
+       "evidence": "performance optimization through indexing and query plans", "confidence": 0.9, "stated_not_assessed": false},
+      {"outcome": "Explain how transactions and ACID properties keep data correct when systems fail",
+       "evidence": "Transaction management and ACID properties are covered extensively", "confidence": 0.7, "stated_not_assessed": false},
+      {"outcome": "Evaluate when a document store like MongoDB is the right choice",
+       "evidence": "work with document stores (MongoDB) and understand when NoSQL is the right choice", "confidence": 0.9, "stated_not_assessed": false},
+      {"outcome": "Apply database administration basics such as backups and user permissions",
+       "evidence": "be comfortable with basic database administration", "confidence": 0.85, "stated_not_assessed": false},
+      {"outcome": "Describe non-relational approaches to storing data",
+       "evidence": "We'll spend the last third of the semester on non-relational approaches", "confidence": 0.5, "stated_not_assessed": false}
+    ]},
+    {"outcomes": [
+      {"outcome": "Design normalized relational schemas that handle a business problem's edge cases",
+       "evidence": "produce a normalized schema that handles edge cases", "confidence": 0.95, "stated_not_assessed": false},
+      {"outcome": "Write complex SQL queries using joins, subqueries, and window functions",
+       "evidence": "master SQL - not just SELECT statements, but complex joins, subqueries, window functions", "confidence": 0.95, "stated_not_assessed": false},
+      {"outcome": "Use indexing and query plans to improve query performance",
+       "evidence": "performance optimization through indexing and query plans", "confidence": 0.9, "stated_not_assessed": false},
+      {"outcome": "Explain how transactions and ACID properties keep data correct when systems fail",
+       "evidence": "Transaction management and ACID properties are covered extensively", "confidence": 0.7, "stated_not_assessed": false},
+      {"outcome": "Evaluate when a document store like MongoDB is the right choice",
+       "evidence": "work with document stores (MongoDB) and understand when NoSQL is the right choice", "confidence": 0.9, "stated_not_assessed": false},
+      {"outcome": "Apply database administration basics such as backups, user permissions, and query monitoring",
+       "evidence": "comfortable with database administration basics — backup strategies, user permissions, and monitoring query performance in production", "confidence": 0.85, "stated_not_assessed": false},
+      {"outcome": "Describe non-relational approaches to storing data",
+       "evidence": "We'll spend the last third of the semester on non-relational approaches", "confidence": 0.5, "stated_not_assessed": false}
+    ]}
+  ],
+
+  "CS4550": [
+    {"outcomes": [
+      {"outcome": "Debug web applications independently",
+       "evidence": "develop strong debugging skills", "confidence": 0.85, "stated_not_assessed": true},
+      {"outcome": "Interpret technical documentation independently",
+       "evidence": "learn to read documentation independently", "confidence": 0.85, "stated_not_assessed": true}
+    ]}
+  ]
+}

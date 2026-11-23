@@ -1,0 +1,60 @@
+{
+  "_about": "Hand labels: which assignments truly assess each learning outcome. The pipeline never reads this file; it's only used to score the pipeline. Labels stay fixed while scoring. Change one only if the labeling rule says it's wrong, never to make a score look better.",
+
+  "labeling_rule": "Aligned means the assignment explicitly requires students to demonstrate the outcome's skill, named in its title, description, or rubric, even if it isn't the main focus. Coverage that's only implied ('a full-stack app probably has a UI', 'the final covers all midterm topics') doesn't count.",
+
+  "_quote_note": "Each outcome is identified by a quote: the syllabus words that state it. For a list item, that's the item itself. Pipeline outcomes are matched to labels by where their own quotes land in the syllabus, so a reworded outcome still meets its label.",
+
+  "courses": {
+    "CS3200": [
+      {"quote": "The primary goal is to make you fluent in relational database design. You should be able to look at a business problem and produce a normalized schema that handles edge cases.",
+       "aligned": ["HW1", "MIDTERM", "GP"],
+       "note": "FINAL covers 'all midterm topics' but never names design or normalization, so under the labeling rule it doesn't count."},
+      {"quote": "We also want you to master SQL — not just SELECT statements, but complex joins, subqueries, window functions",
+       "aligned": ["HW2", "HW3", "MIDTERM", "GP"]},
+      {"quote": "performance optimization through indexing and query plans",
+       "aligned": ["HW3", "FINAL"]},
+      {"quote": "Transaction management and ACID properties are covered extensively because real systems fail and you need to know what happens when they do.",
+       "aligned": ["HW4", "MIDTERM"]},
+      {"quote": "We'll spend the last third of the semester on non-relational approaches. You'll work with document stores (MongoDB) and understand when NoSQL is the right choice versus when it's a hype-driven mistake.",
+       "aligned": ["FINAL"],
+       "note": "Planted depth gap: 'work with' MongoDB is hands-on, but only the written final covers NoSQL."},
+      {"quote": "By the end you should also be comfortable with database administration basics — backup strategies, user permissions, and monitoring query performance in production.",
+       "aligned": ["HW5", "FINAL"]}
+    ],
+
+    "CS4530": [
+      {"quote": "Understand and apply common design patterns (Observer, Strategy, Factory, etc.)", "aligned": ["IA1"]},
+      {"quote": "Evaluate architectural tradeoffs between monolithic and microservice approaches", "aligned": ["IA2"]},
+      {"quote": "Practical experience decomposing requirements into software components", "aligned": ["TP"]},
+      {"quote": "Work effectively in agile teams using Scrum practices (sprints, standups, retros)", "aligned": ["TP"]},
+      {"quote": "Use Git workflows (branching, PRs, code review) in a team setting", "aligned": ["TP"]},
+      {"quote": "Communicate technical decisions clearly in design documents and presentations", "aligned": ["IA1", "IA2", "IA4"],
+       "note": "Judgment call. IA1's written justification of each pattern and IA4's 'what to test and why' both make students explain technical decisions in writing. IA2 is a design document plus a presentation."},
+      {"quote": "Develop comprehensive test strategies spanning unit, integration, and system tests", "aligned": ["IA4"]},
+      {"quote": "Apply test-driven development (TDD) as a design tool, not just verification", "aligned": [],
+       "note": "IA4 is a strategy document, not TDD practice, and TP only asks for a test suite. Nothing assesses TDD."},
+      {"quote": "Use static analysis and linting to maintain code quality", "aligned": ["IA3"]},
+      {"quote": "Build and maintain CI/CD pipelines using GitHub Actions", "aligned": ["IA3", "TP"]},
+      {"quote": "Understand containerization basics (Docker) and why it matters for reproducibility", "aligned": ["IA3"],
+       "note": "Docker appears only in IA3's rubric keywords, not its description. The rubric is what's graded, so it counts."},
+      {"quote": "Monitor application health and respond to production incidents", "aligned": [],
+       "note": "Intentional gap: nothing assesses monitoring."}
+    ],
+
+    "CS4550": [
+      {"quote": "Build responsive user interfaces using React and modern CSS (Flexbox, Grid)", "aligned": ["A1", "A2", "MP"]},
+      {"quote": "Design and implement RESTful APIs using Node.js and Express", "aligned": ["A3", "MP"]},
+      {"quote": "Model data and write efficient queries using SQL and relational databases", "aligned": ["A4", "MP"],
+       "note": "MP requires a PostgreSQL database, which counts even though it doesn't mention queries."},
+      {"quote": "Apply authentication and authorization patterns (JWT, OAuth) to secure web apps", "aligned": ["A5", "MP"]},
+      {"quote": "Write unit, integration, and end-to-end tests for both client and server code", "aligned": [],
+       "note": "Intentional gap: no assignment asks students to write tests."},
+      {"quote": "Deploy applications to cloud platforms and configure CI/CD pipelines", "aligned": ["FP"]},
+      {"quote": "develop strong debugging skills", "aligned": [], "stated_not_assessed": true,
+       "note": "From the prose under the list. The syllabus says this won't be formally assessed."},
+      {"quote": "learn to read documentation independently", "aligned": [], "stated_not_assessed": true,
+       "note": "Same sentence, same 'won't be formally assessed'."}
+    ]
+  }
+}

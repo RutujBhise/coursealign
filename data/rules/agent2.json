@@ -1,0 +1,29 @@
+{
+  "_about": "Rules and settings for Agent 2, the pair judge. The rules go into its prompt word for word. Rule 2 is the same definition the hand labels use, on purpose: if the judge and the labels define 'assesses' differently, a score measures disagreement about the definition, not the judge.",
+
+  "rules": [
+    "Judge only from the outcome and the assignment in this message. Don't assume anything the assignment doesn't say.",
+    "An assignment assesses an outcome only if it explicitly requires students to demonstrate the outcome's skill, in its title, description, or rubric, even if that isn't its main focus. Coverage that's only implied doesn't count. The rubric is what's graded, so a skill the rubric names counts as required even if the description never mentions it.",
+    "verdict: \"direct\" if the assignment requires the whole skill, \"partial\" if it requires part of it or a narrower version, \"tangential\" if the topics overlap but the skill isn't required.",
+    "For direct or partial, copy the words in the assignment that require the skill, exactly, as one continuous quote. The quote has to show what students must do, not just a topic word they share. Code checks every quote against the assignment. For tangential, use an empty string.",
+    "assessed_level: the highest Bloom's level the assignment asks students to reach for this outcome. Use null for tangential.",
+    "confidence: how sure you are of your verdict, from 0 to 1.",
+    "reason: one sentence a teacher would understand."
+  ],
+
+  "confidence": {
+    "accept_at": 0.8,
+    "pass_with_review_at": 0.6,
+    "_note": "Same tiers as Agent 1: pass, pass flagged for review, or hold for a human. A held pair counts as neither aligned nor not aligned until a human decides."
+  },
+
+  "quote_words": {"min": 3, "max": 40},
+  "_quote_note": "At least 3 words, so a match can't rest on one shared word like 'design'. Rubric keywords still work: quote a run of them, like 'linting, deployment, staging, Docker'.",
+  "max_attempts": 2,
+
+  "second_opinion": false,
+  "_second_opinion_note": "When true, every pair Agent 2 decides is judged a second time, separately. If the two disagree on whether the assignment assesses the outcome, the pair waits for a person. This is the check self-reported confidence can't give: on the first real run, every wrong verdict came with confidence 0.85 or higher. It doubles Agent 2's requests. The step scripts turn it on with --second-opinion.",
+
+  "max_parallel_calls": 8,
+  "_parallel_note": "Pairs are independent, so up to this many are judged at once. Each one is still its own call that sees only its own pair."
+}

@@ -1,0 +1,10 @@
+__pycache__/
+.pytest_cache/
+.cache/
+data/runs/
+data/rules/settings.json
+web/node_modules/
+web/dist/
+web/test-results/
+web/playwright-report/
+.venv/

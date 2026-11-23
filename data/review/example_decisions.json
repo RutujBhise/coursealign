@@ -1,0 +1,35 @@
+{
+  "_about": "Example review decisions, used by step5_review.py's offline demo. Four answer round 1's review queue. The last two correct pairs the rules auto-rejected (the CS4530 misses from Step 2), and one of those teaches the rules a word. Your own decisions go in data/review/decisions.json.",
+  "decisions": [
+    {"kind": "outcome", "course_id": "CS3200",
+     "quote": "Transaction management and ACID properties are covered extensively",
+     "decision": "keep", "note": "The syllabus clearly expects students to understand this.",
+     "by": "example reviewer", "at": "2026-11-23"},
+
+    {"kind": "outcome", "course_id": "CS3200",
+     "quote": "We'll spend the last third of the semester on non-relational approaches",
+     "decision": "drop", "note": "A topic statement. The MongoDB outcome already covers it.",
+     "by": "example reviewer", "at": "2026-11-23"},
+
+    {"kind": "pair", "course_id": "CS4550",
+     "quote": "Design and implement RESTful APIs using Node.js and Express", "assignment_id": "A4",
+     "decision": "not_aligned", "note": "A4 uses the API, but what it grades is the database work.",
+     "by": "example reviewer", "at": "2026-11-23"},
+
+    {"kind": "pair", "course_id": "CS4550",
+     "quote": "Design and implement RESTful APIs using Node.js and Express", "assignment_id": "A5",
+     "decision": "not_aligned", "note": "A5 grades authentication, not API design.",
+     "by": "example reviewer", "at": "2026-11-23"},
+
+    {"kind": "pair", "course_id": "CS4530",
+     "quote": "Communicate technical decisions clearly in design documents and presentations", "assignment_id": "IA1",
+     "decision": "partial", "note": "The one-page justification of each pattern is a written explanation of a design decision.",
+     "teach": [{"topic": "communication", "term": "justification"}],
+     "by": "example reviewer", "at": "2026-11-23"},
+
+    {"kind": "pair", "course_id": "CS4530",
+     "quote": "Communicate technical decisions clearly in design documents and presentations", "assignment_id": "IA4",
+     "decision": "partial", "note": "'What to test at each layer and why' explains test decisions in writing.",
+     "by": "example reviewer", "at": "2026-11-23"}
+  ]
+}

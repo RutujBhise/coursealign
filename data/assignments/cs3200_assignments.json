@@ -1,0 +1,82 @@
+[
+  {
+    "id": "HW1",
+    "course": "CS3200",
+    "title": "ER Modeling Exercise",
+    "type": "homework",
+    "description": "Given a business scenario (online bookstore), produce a complete ER diagram. Identify entities, relationships, cardinalities, and participation constraints. Convert to a relational schema in 3NF.",
+    "rubric_keywords": ["ER diagram", "entities", "relationships", "cardinality", "normalization", "3NF"],
+    "points": 100,
+    "week": 3
+  },
+  {
+    "id": "HW2",
+    "course": "CS3200",
+    "title": "SQL Fundamentals",
+    "type": "homework",
+    "description": "Write SQL queries against a provided university database. Includes: multi-table joins, subqueries, aggregation with GROUP BY and HAVING, and basic string/date functions.",
+    "rubric_keywords": ["SQL", "joins", "subqueries", "aggregation", "GROUP BY"],
+    "points": 100,
+    "week": 5
+  },
+  {
+    "id": "HW3",
+    "course": "CS3200",
+    "title": "Advanced SQL and Query Optimization",
+    "type": "homework",
+    "description": "Write queries using window functions (ROW_NUMBER, RANK, LAG/LEAD), CTEs, and recursive queries. Use EXPLAIN ANALYZE to evaluate query plans. Add indexes and measure performance improvement.",
+    "rubric_keywords": ["window functions", "CTE", "EXPLAIN ANALYZE", "indexing", "query optimization"],
+    "points": 100,
+    "week": 8
+  },
+  {
+    "id": "HW4",
+    "course": "CS3200",
+    "title": "Transaction Isolation Lab",
+    "type": "homework",
+    "description": "Using a provided multi-user simulation script, observe and document the effects of different transaction isolation levels (READ UNCOMMITTED through SERIALIZABLE). Identify phantom reads, dirty reads, and non-repeatable reads in your observations.",
+    "rubric_keywords": ["transactions", "isolation levels", "ACID", "phantom reads", "dirty reads"],
+    "points": 100,
+    "week": 10
+  },
+  {
+    "id": "HW5",
+    "course": "CS3200",
+    "title": "Database Administration Basics",
+    "type": "homework",
+    "description": "Set up a PostgreSQL instance. Configure user roles and permissions. Write a backup script using pg_dump. Set up a monitoring query to identify slow queries from pg_stat_statements.",
+    "rubric_keywords": ["pg_dump", "user roles", "permissions", "monitoring", "pg_stat_statements"],
+    "points": 100,
+    "week": 13
+  },
+  {
+    "id": "MIDTERM",
+    "course": "CS3200",
+    "title": "Midterm Exam",
+    "type": "exam",
+    "description": "Written exam covering ER modeling, normalization theory (1NF through BCNF), relational algebra, SQL query writing, and transaction concepts (ACID properties, isolation levels).",
+    "rubric_keywords": ["ER modeling", "normalization", "relational algebra", "SQL", "ACID"],
+    "points": 150,
+    "week": 7
+  },
+  {
+    "id": "FINAL",
+    "course": "CS3200",
+    "title": "Final Exam",
+    "type": "exam",
+    "description": "Comprehensive written exam. Includes all midterm topics plus: query optimization, indexing strategies, NoSQL concepts and tradeoffs, CAP theorem, and database administration.",
+    "rubric_keywords": ["comprehensive", "optimization", "indexing", "NoSQL", "CAP theorem", "administration"],
+    "points": 150,
+    "week": 15
+  },
+  {
+    "id": "GP",
+    "course": "CS3200",
+    "title": "Group Database Project",
+    "type": "project",
+    "description": "Teams of 3-4 design and implement a database-backed application. Deliverables: ER diagram, normalized schema (3NF minimum), 10+ sample queries demonstrating joins/aggregation/subqueries, brief written report analyzing design tradeoffs and what you'd change.",
+    "rubric_keywords": ["ER diagram", "schema design", "SQL queries", "tradeoffs", "report", "teamwork"],
+    "points": 200,
+    "week": 14
+  }
+]
