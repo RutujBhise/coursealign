@@ -32,10 +32,10 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from coursealign.agent1 import Agent1Config
 from coursealign.agent2 import Agent2Config
-from coursealign.evaluate import Run, label_runs, load_gold, score_pipeline, score_runs
+from coursealign.evaluate import Run, label_runs, load_gold, score_by_label, score_pipeline, score_runs
 from coursealign.graph import build_graph, graph_api, initial_state
 from coursealign.llm import CachedLLM, FakeLLM, LLMUnavailable, build_llms, stopped_message
-from coursealign.loader import load_course_data, pick_courses
+from coursealign.loader import load_course_data, pick_courses, stand_in_courses
 from coursealign.oracle import LabelJudge
 from coursealign.stage0 import Rules
 
@@ -46,6 +46,7 @@ METRICS = [
     ("held", "Pairs held for a person"),
     ("no_reply", "Pairs with no reply from the model"),
     ("every_pair_right", "Every decided pair right"),
+    ("label_pairs_right", "Every pair right, per stated outcome"),
     ("untested_found", "Untested outcomes found"),
     ("orphans_found", "Orphan assignments found"),
     ("false_alarms", "Gap false alarms"),
@@ -65,7 +66,7 @@ def one_run(courses, rules, agent1_config, agent2_config, gold, llms) -> dict:
     graph = build_graph(rules, agent1_config, reader, graph_api()[0], agent2_config=agent2_config, judge_llm=judge)
     finals = [graph.invoke(initial_state(c["syllabus"], c["assignments"])) for c in courses]
     runs = [Run.from_state(f) for f in finals]
-    stage0, pipeline = score_runs(runs, gold), score_pipeline(runs, gold)
+    stage0, pipeline, by_label = score_runs(runs, gold), score_pipeline(runs, gold), score_by_label(runs, gold)
     requests = sum(len(f["agent1_log"]) + len(f["agent2_log"]) for f in finals)
     per_pair = 2 if agent2_config.second_opinion else 1        # the same judging, without rules to triage
     without_rules = len(finals) + per_pair * sum(
@@ -78,6 +79,7 @@ def one_run(courses, rules, agent1_config, agent2_config, gold, llms) -> dict:
         "held": pipeline.held,
         "no_reply": sum(1 for f in finals for entry in f["agent2_log"] if entry.get("unavailable")),
         "every_pair_right": [pipeline.decided_correct, pipeline.decided],
+        "label_pairs_right": [by_label.decided_correct, by_label.decided],
         "untested_found": [pipeline.untested_found, pipeline.untested_expected],
         "orphans_found": [pipeline.orphans_found, pipeline.orphans_expected],
         "false_alarms": len(pipeline.untested_false) + len(pipeline.orphans_false),
@@ -123,6 +125,8 @@ def main() -> None:
     courses = [c for c in load_course_data(ROOT / "data" / "syllabi", ROOT / "data" / "assignments")
                if c["syllabus"] is not None]
     courses = pick_courses(courses, args.courses)
+    if args.llm == "fake":
+        courses = stand_in_courses(courses, args.courses)  # the stand-ins only know the practice courses
     real = build_llms(args.llm) if args.llm != "fake" else None
     if real is None:
         model = "stand-in agents (answers from the hand labels)"

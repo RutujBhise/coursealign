@@ -21,7 +21,7 @@ from coursealign.evaluate import load_gold
 from coursealign.gaps import find_gaps
 from coursealign.graph import build_graph, graph_api, initial_state
 from coursealign.llm import NO_REPLY, FakeLLM, LLMUnavailable
-from coursealign.loader import load_course_data
+from coursealign.loader import load_course_data, stand_in_courses
 from coursealign.models import (
     AlignmentResult, AlignmentType, Assignment, BloomLevel, ExtractedOutcome, GapType, MatchConfidence,
 )
@@ -247,10 +247,43 @@ def test_when_the_model_is_down_the_run_still_finishes_and_says_what_is_pending(
     assert pairs and all(item.why.startswith("held: the model didn't answer") for item in pairs)
 
 
+# ── scoring when Agent 1 splits a stated outcome into parts ──────────────────
+
+def test_a_split_outcome_is_scored_the_way_its_label_was_written():
+    from coursealign.evaluate import Label, Run, score_by_label, score_pipeline
+    from coursealign.models import GapReport, GapSeverity, RawSyllabus
+    syllabus = RawSyllabus("T200", "Test", "Objectives\nYou will design programs and test them thoroughly.\n"
+                                           "You will work in a team.\n", "t.txt")
+    gold = {"T200": [Label("You will design programs and test them thoroughly.", {"A1", "A2"}),
+                     Label("You will work in a team.", {"A2"})]}
+    part = lambda oid, text, quote: ExtractedOutcome(id=oid, course_id="T200", text=text, evidence=quote)
+    outcomes = [part("O1", "Design programs", "design programs"),                 # objective 1, split in two
+                part("O2", "Test programs thoroughly", "test them thoroughly"),
+                part("O3", "Work in a team", "You will work in a team.")]
+    tasks = [Assignment(id=i, course_id="T200", title=i, type="project", description="d",
+                        rubric_keywords=[], points=100, week=1) for i in ("A1", "A2")]
+    decisions = [TriageDecision(o.id, a.id, Decision.NEEDS_AGENT, [], [], "test") for o in outcomes for a in tasks]
+    def said(oid, aid, kind, tier=MatchConfidence.HIGH):
+        return AlignmentResult(outcome_id=oid, assignment_id=aid, score=0.9, confidence_tier=tier,
+                               alignment_type=kind, reasoning="", evidence="")
+    judgments = [said("O1", "A1", AlignmentType.DIRECT), said("O2", "A1", AlignmentType.TANGENTIAL),  # A1: design only
+                 said("O1", "A2", AlignmentType.TANGENTIAL), said("O2", "A2", AlignmentType.DIRECT),  # A2: tests only
+                 said("O3", "A1", AlignmentType.TANGENTIAL),
+                 said("O3", "A2", AlignmentType.TANGENTIAL, MatchConfidence.LOW)]                    # held
+    gaps = [GapReport("T200", GapType.UNTESTED_OUTCOME, GapSeverity.CRITICAL, "", outcome_id="O2")]
+    run = Run(syllabus, outcomes, decisions, judgments=judgments, gaps=gaps, assignments=tasks)
+
+    per_part, per_label = score_pipeline([run], gold), score_by_label([run], gold)
+    assert per_part.decided_correct == 3 and per_part.decided == 5      # two right answers about a part counted wrong
+    assert (per_label.decided_correct, per_label.decided, per_label.waiting) == (3, 3, 1) and not per_label.wrong
+    assert per_label.split == 1
+    assert per_label.untested_false == [] and per_label.finer_alarms == ["O2"]    # O1 is assessed, so not a false alarm
+
+
 # ── the whole pipeline, offline ──────────────────────────────────────────────
 
 def test_ceiling_run_finds_exactly_the_labeled_gaps():
-    courses = [c for c in load_course_data(ROOT / "data" / "syllabi", ROOT / "data" / "assignments")]
+    courses = stand_in_courses(load_course_data(ROOT / "data" / "syllabi", ROOT / "data" / "assignments"), None)
     gold = load_gold(ROOT / "data" / "gold" / "alignment_labels.json")
     reader = FakeLLM.from_file(ROOT / "tests" / "fixtures" / "agent1_fake_replies.json")
     judge = FakeLLM(responder=LabelJudge({c["course_id"]: c["syllabus"] for c in courses}, gold, RULES))

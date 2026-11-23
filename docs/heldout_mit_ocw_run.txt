@@ -1,0 +1,158 @@
+Held-out run on two MIT OpenCourseWare courses, the only run on these courses with the final pipeline.
+Command: python step4_agent2.py --llm gemini --second-opinion --courses MIT6005,MIT6170
+Settings: COURSEALIGN_GEMINI_MODEL=gemini-3.5-flash-lite, COURSEALIGN_GEMINI_RPM=12, COURSEALIGN_LLM_ATTEMPTS=12
+The run was finished across two days because the free daily limit ran out; answers already received were reused from the reply cache.
+
+================================================================
+  STEP 4: AGENT 2 + GAP ANALYSIS
+================================================================
+  Graph engine: LangGraph
+  Agent 1: gemini (gemini-3.5-flash-lite), with a reply cache
+  Agent 2: gemini (gemini-3.5-flash-lite), with a reply cache
+  Second opinion: on. Each pair is judged twice; a disagreement waits for a person.
+
+[MIT6005] 6.005 Elements of Software Construction (MIT OpenCourseWare, Fall 2008)
+  Outcomes: 0 from rules, 7 from Agent 1, 0 held for review
+  Triage: 0 auto-match, 2 auto-reject, 61 sent to Agent 2 (122 calls)
+    x MIT6005-O3 x P2, attempt 1: evidence isn't in the assignment word for word: "Sketch the code structure using dependency diagrams for two possible implementations of your abstract design that differ substantively. List their relative merits, select one of them, and explain why you chose it."
+    x MIT6005-O3 x P2, attempt 2: evidence isn't in the assignment word for word: "Sketch the code structure using dependency diagrams for two possible implementations of your abstract design that differ substantively"
+    direct     MIT6005-O1 x EX1      0.95        create     "Your task is to build a program that allows a standard computer keyboard to be used as a (rather crude) electronic piano"
+    direct     MIT6005-O1 x EX2      1.00        create     "Your task is to build a program that completes a Sudoku puzzle"
+    direct     MIT6005-O1 x EX3      0.95        create     "Your task is to build an organizer for digital photos"
+    partial    MIT6005-O1 x PS1      0.90        apply      "Implement the multi-unit calculator described above"
+    partial    MIT6005-O1 x PS2      0.90        apply      "Implement the array datatype from the previous problem using Java classes, and implement get, put, and size as methods."
+    partial    MIT6005-O1 x PS3      0.90        apply      "Implement an address book, based on the object model that you constructed"
+    partial    MIT6005-O1 x P1       0.90        apply      "You are given a particular protocol format (described below) and required to implement a single method, Multipart.openStream() (although you will likely wish to design and use other classes to help with this task)."
+    direct     MIT6005-O1 x P2       1.00        create     "Implement your chosen code design in Java"
+    direct     MIT6005-O1 x P3       1.00        create     "In this project you will design and implement an IM system, including both the client and the server."
+    tangential MIT6005-O2 x EX2      0.00 HELD   -
+    tangential MIT6005-O2 x EX3      0.00 HELD   -
+    direct     MIT6005-O2 x PS1      1.00        apply      "construct a state machine to model the problem"
+    partial    MIT6005-O2 x PS2      0.80        apply      "Model the units of a physical quantity used in mechanics"
+    partial    MIT6005-O2 x PS3      0.90        apply      "For each of the following problems, construct (1) a graphical object model, accompanied by (2) designations that give a crisp and precise one sentence meaning for each set and relation name"
+    direct     MIT6005-O2 x P1       1.00        analyze    "Analyze the problem statement carefully, and resolve any ambiguities or omissions."
+    direct     MIT6005-O2 x P2       0.90        analyze    "clarifying a problem statement"
+    direct     MIT6005-O2 x P3       1.00        analyze    "Construct an object model that captures the essential concepts of instant messaging from a problem perspective, and their relationships to one another."
+    partial    MIT6005-O3 x PS1      0.90        create     "construct state transition diagrams and grammars for a variety of small problems"
+    partial    MIT6005-O3 x PS2      0.90        evaluate   "Briefly discuss the design decisions you made -- e.g., does your datatype permit nonsensical expressions?"
+    direct     MIT6005-O3 x PS3      0.95        create     "construct (1) a graphical object model, accompanied by (2) designations that give a crisp and precise one sentence meaning for each set and relation name, and (3) three object diagrams showing interesting cases of instances satisfying the model"
+    partial    MIT6005-O3 x P1       0.90        evaluate   "Sketch the code structure using dependency diagrams for two possible implementations of your abstract design that differ substantively. List their relative merits, select one of them, and explain why you chose it."
+    tangential MIT6005-O3 x P2       0.00 HELD   -
+    direct     MIT6005-O3 x P3       1.00        create     "Construct an object model that captures the essential concepts of instant messaging from a problem perspective, and their relationships to one another. Explain the important modeling decisions you made. Describe alternatives to particular decisions and justify your choice."
+    direct     MIT6005-O4 x EX1      0.95        apply      "give you practice coding in Java"
+    direct     MIT6005-O4 x EX2      1.00        apply      "give you practice coding in Java"
+    direct     MIT6005-O4 x EX3      1.00        apply      "The purpose of this exploration is to give you practice coding in Java"
+    tangential MIT6005-O4 x PS1      0.00 HELD   -
+    direct     MIT6005-O4 x PS2      1.00        apply      "Implement the array datatype from the previous problem using Java classes"
+    direct     MIT6005-O4 x PS3      1.00        apply      "Implement an address book, based on the object model that you constructed"
+    direct     MIT6005-O4 x P1       1.00        apply      "Implement your chosen code design in Java"
+    direct     MIT6005-O4 x P2       1.00        apply      "Implement your chosen code design in Java"
+    direct     MIT6005-O4 x P3       1.00        apply      "Implement an IM system in Java with the following properties"
+    partial    MIT6005-O5 x PS1      0.90        apply      "Provide at least three JUnit test cases for your code"
+    partial    MIT6005-O5 x PS2      0.90        apply      "Write a JUnit test suite that tests your datatype"
+    direct     MIT6005-O5 x PS3      0.95        apply      "Construct a suite of test cases based on partitioning that gives reasonable coverage of the specification of the API"
+    direct     MIT6005-O5 x P1       0.90        apply      "Create at least three additional test cases of your own, that demonstrate the robustness of your Multipart implementation."
+    direct     MIT6005-O5 x P2       0.90        evaluate   "structuring a program to make it easily testable, organizing, executing and evaluating test suites"
+    direct     MIT6005-O5 x P3       1.00        apply      "Devise a strategy for testing your IM system. Describe what automated tests you will use, and what manual tests you will perform."
+    tangential MIT6005-O6 x EX2      0.00 HELD   -
+    partial    MIT6005-O6 x PS1      0.90        apply      "define an invariant"
+    direct     MIT6005-O6 x PS2      1.00        apply      "Rep invariant, implemented by a checkRep() method"
+    direct     MIT6005-O6 x P2       0.95        apply      "inventing clear and simple interfaces to minimize coupling, and identifying and resolving undesirable dependences"
+    partial    MIT6005-O7 x PS1      0.90        apply      "construct state transition diagrams and grammars for a variety of small problems"
+    tangential MIT6005-O7 x PS2      0.00 HELD   -
+    partial    MIT6005-O7 x PS3      0.90        apply      "construct (1) a graphical object model, accompanied by (2) designations that give a crisp and precise one sentence meaning for each set and relation name, and (3) three object diagrams"
+    direct     MIT6005-O7 x P2       0.95        apply      "Describe the abc input files and the structures you plan to build from them using grammars, state machines and datatype productions."
+    ...plus 15 pairs judged tangential with high confidence
+  Gap report:
+    WARNING  blooms_mismatch      MIT6005-O2 "Formulate and analyze the problem to be solved."
+             The outcome asks students to create, but the assignments that assess it only reach analyze: PS1 (apply), PS2 (apply), PS3 (apply), P1 (analyze), P2 (analyze), P3 (analyze).
+
+[MIT6170] 6.170 Software Studio (MIT OpenCourseWare, Spring 2013)
+  Outcomes: 0 from rules, 9 from Agent 1, 0 held for review
+  Triage: 0 auto-match, 3 auto-reject, 42 sent to Agent 2 (84 calls)
+    tangential MIT6170-O1 x P3       0.00 HELD   -
+    tangential MIT6170-O2 x P1       0.00 HELD   -
+    partial    MIT6170-O2 x P2       0.80        apply      "In the first phase, you will construct only a paper design."
+    partial    MIT6170-O2 x P3       0.90        create     "The third phase is an extension of your implementation with some features of your own invention."
+    partial    MIT6170-O3 x FINAL    0.90        apply      "your team will present a very brief pitch to the whole class"
+    direct     MIT6170-O4 x P1       1.00        evaluate   "you will write two short critiques: one of your own work, and one of your peer’s work"
+    direct     MIT6170-O4 x P2       1.00        evaluate   "write two short critiques: one of your own work, and one of your peer’s work"
+    direct     MIT6170-O4 x P3       1.00        evaluate   "you will write two short critiques: one of your own work, and one of your peer’s work"
+    tangential MIT6170-O4 x FINAL    0.00 HELD   -
+    partial    MIT6170-O6 x P1       0.90        create     "In this phase, you will add enough features for a basic, working analytics engine"
+    direct     MIT6170-O6 x P2       0.90        create     "In the first phase, you will construct only a paper design."
+    direct     MIT6170-O6 x P3       1.00        create     "construct a design for both the minimal viable product and for your extension"
+    tangential MIT6170-O6 x FINAL    0.00 HELD   -
+    direct     MIT6170-O7 x P1       1.00        create     "you will build a web analytics service that provides people who run websites with data"
+    direct     MIT6170-O7 x P2       0.95        create     "In this phase, you will build an implementation of the design you did in Phase 1."
+    direct     MIT6170-O7 x P3       1.00        create     "you will design and implement your own sticky note application as a JavaScript program running client side, with state persisted on a web server"
+    tangential MIT6170-O7 x FINAL    0.00 HELD   -
+    partial    MIT6170-O8 x P1       0.90        apply      "All phases of all projects are to be checked in to your repository and deployed on Heroku"
+    direct     MIT6170-O9 x FINAL    0.95        apply      "Writing the teamwork plan gives you a chance as a team to think about your goals for the project, what challenges you will face"
+    ...plus 23 pairs judged tangential with high confidence
+  Gap report:
+    CRITICAL untested_outcome     MIT6170-O1 "Analyze problems with improved ability."
+             No assignment assesses this outcome. 1 pair held for review could change this.
+    CRITICAL untested_outcome     MIT6170-O5 "Understand key software design notions including conceptual modeling, decoupling, and abstraction."
+             No assignment assesses this outcome.
+    WARNING  weak_coverage        MIT6170-O2 "Explore and invent designs with improved ability."
+             Covered only in parts: no single assignment assesses the whole outcome (P2, P3).
+    WARNING  weak_coverage        MIT6170-O3 "Present your work with improved ability."
+             Covered only in parts: no single assignment assesses the whole outcome (FINAL).
+    WARNING  weak_coverage        MIT6170-O8 "Conduct all phases of development from problem analysis to deployment."
+             Covered only in parts: no single assignment assesses the whole outcome (P1).
+    INFO     orphan_assessment    NANOQUIZ "Nanoquizzes"
+             Assesses none of the syllabus's stated outcomes. That can be on purpose (participation, a reflection).
+
+================================================================
+  LLM CALLS
+================================================================
+  Pairs: 108   settled by the rules before any LLM call: 5 (4.6%)
+  Agent 1: 2   Agent 2: 206   total: 208
+  With no rules, every syllabus to Agent 1 and every pair to Agent 2: 218
+  Calls the rules saved: 4.6%
+  Model calls this run: 25   (the other 183 replies were saved from earlier runs)
+  Temporary errors (busy model, rate limit) retried: 17
+
+================================================================
+  WAITING FOR A HUMAN (Step 5)
+================================================================
+  0 outcomes and 11 pairs are flagged or held for review
+
+================================================================
+  MEASURED AGAINST HAND LABELS
+================================================================
+  Labeled outcomes found (rules + Agent 1): 7/10   (a missed outcome makes its assignments look like orphans)
+  Per stated outcome, the level the labels were written at:
+    Every labeled pair: 40/43 right, 4 waiting for review
+      wrong: MIT6005 outcome 2 x P3, judged not aligned
+      wrong: MIT6005 outcome 3 x P1, judged not aligned
+      wrong: MIT6005 outcome 3 x P3, judged not aligned
+    Untested outcomes found: 0/0  (false alarms: none)
+    Parts flagged untested while another part of the same outcome is assessed (the labels can't score these): MIT6170-O1, MIT6170-O5
+  Per extracted outcome. Agent 1 split 4 stated outcomes into parts, so these
+  can count a right answer about one part as wrong; the per-stated-outcome score above is the one to quote:
+  Agent 2 verdicts that passed: 73/92 right  (0 flagged for review, 11 held)
+    wrong: MIT6005-O2 x EX1, judged not aligned
+    wrong: MIT6005-O3 x EX1, judged not aligned
+    wrong: MIT6005-O3 x EX2, judged not aligned
+    wrong: MIT6005-O3 x EX3, judged not aligned
+    wrong: MIT6005-O5 x EX3, judged not aligned
+    wrong: MIT6005-O6 x P3, judged not aligned
+    wrong: MIT6005-O7 x P1, judged not aligned
+    wrong: MIT6005-O7 x P3, judged not aligned
+    wrong: MIT6170-O1 x P1, judged not aligned
+    wrong: MIT6170-O1 x P2, judged not aligned
+    wrong: MIT6170-O1 x FINAL, judged not aligned
+    wrong: MIT6170-O2 x FINAL, judged not aligned
+    wrong: MIT6170-O3 x P1, judged not aligned
+    wrong: MIT6170-O3 x P2, judged not aligned
+    wrong: MIT6170-O3 x P3, judged not aligned
+    wrong: MIT6170-O5 x P1, judged not aligned
+    wrong: MIT6170-O5 x P2, judged not aligned
+    wrong: MIT6170-O5 x P3, judged not aligned
+    wrong: MIT6170-O5 x FINAL, judged not aligned
+  Every pair, rules and Agent 2 together: 73/97 right, 11 waiting for review
+  Untested outcomes found: 0/0  (false alarms: MIT6170-O1, MIT6170-O5)
+  Orphan assignments found: 1/1  (false alarms: none)
+  Bloom's gaps: reported, not scored. The labels only mark one, in CS3200.

@@ -27,10 +27,10 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from coursealign.agent1 import Agent1Config
 from coursealign.agent2 import Agent2Config
-from coursealign.evaluate import Run, load_gold, score_pipeline, score_runs
+from coursealign.evaluate import Run, load_gold, score_by_label, score_pipeline, score_runs
 from coursealign.graph import build_graph, graph_api, initial_state
 from coursealign.llm import CachedLLM, FakeLLM, LLMUnavailable, build_llms, stopped_message
-from coursealign.loader import load_course_data, pick_courses
+from coursealign.loader import load_course_data, pick_courses, stand_in_courses
 from coursealign.models import AlignmentType, ExtractionSource, MatchConfidence
 from coursealign.oracle import LabelJudge
 from coursealign.stage0 import Decision, Rules
@@ -118,6 +118,8 @@ def main() -> None:
     courses = [c for c in load_course_data(ROOT / "data" / "syllabi", ROOT / "data" / "assignments")
                if c["syllabus"] is not None]
     courses = pick_courses(courses, args.courses)
+    if args.llm == "fake":
+        courses = stand_in_courses(courses, args.courses)  # the stand-ins only know the practice courses
 
     fake = args.llm == "fake"
     if fake:
@@ -189,7 +191,7 @@ def main() -> None:
 
     # Scored against hand labels
     runs = [Run.from_state(f) for f in finals]
-    s, found = score_pipeline(runs, gold), score_runs(runs, gold)
+    s, found, by_label = score_pipeline(runs, gold), score_runs(runs, gold), score_by_label(runs, gold)
     banner("MEASURED AGAINST HAND LABELS")
     if fake:
         print("  (fake agents: this tests the plumbing and shows the ceiling, not a model)")
@@ -197,6 +199,19 @@ def main() -> None:
         print(f"  (incomplete: {len(missing)} pairs had no reply from the model, see above)")
     print(f"  Labeled outcomes found (rules + Agent 1): {found.labeled_found}/{found.labeled}"
           "   (a missed outcome makes its assignments look like orphans)")
+    print("  Per stated outcome, the level the labels were written at:")
+    print(f"    Every labeled pair: {by_label.decided_correct}/{by_label.decided} right,"
+          f" {by_label.waiting} waiting for review")
+    for line in by_label.wrong:
+        print(f"      wrong: {line}")
+    print(f"    Untested outcomes found: {by_label.untested_found}/{by_label.untested_expected}"
+          f"  (false alarms: {', '.join(by_label.untested_false) or 'none'})")
+    if by_label.finer_alarms:
+        print(f"    Parts flagged untested while another part of the same outcome is assessed"
+              f" (the labels can't score these): {', '.join(by_label.finer_alarms)}")
+    if by_label.split:
+        print(f"  Per extracted outcome. Agent 1 split {by_label.split} stated outcomes into parts, so these")
+        print("  can count a right answer about one part as wrong; the per-stated-outcome score above is the one to quote:")
     print(f"  Agent 2 verdicts that passed: {s.accepted_correct}/{s.accepted} right"
           f"  ({s.flagged} flagged for review, {s.held} held)")
     for outcome_id, assignment_id, verdict in s.wrong:

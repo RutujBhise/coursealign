@@ -249,3 +249,70 @@ def score_pipeline(runs: list[Run], gold: dict[str, list[Label]]) -> PipelineSco
         s.orphans_found += len(found_orphans & expected_orphans)
         s.orphans_false += [f"{run.syllabus.course_id}/{a}" for a in sorted(found_orphans - expected_orphans)]
     return s
+
+
+# ── Scored per stated outcome: the level the labels were written at ──────────
+
+@dataclass
+class LabelScore:
+    """One label is one outcome the syllabus states. When Agent 1 splits a stated
+    outcome into parts (one bundled objective into "design", "implement", "test"),
+    scoring each part against the whole outcome's label counts right answers as
+    wrong: a part can truly go unassessed by an assignment that assesses another
+    part. So here the pipeline's answer for (stated outcome, assignment) is
+    "assesses it" if it says so for any part, which is the rule the labels use."""
+    pairs: int = 0
+    decided: int = 0
+    decided_correct: int = 0
+    waiting: int = 0
+    wrong: list[str] = field(default_factory=list)
+    split: int = 0                      # stated outcomes Agent 1 split into more than one part
+    untested_expected: int = 0
+    untested_found: int = 0
+    untested_false: list[str] = field(default_factory=list)
+    finer_alarms: list[str] = field(default_factory=list)   # a part flagged untested while another part is assessed
+
+
+def score_by_label(runs: list[Run], gold: dict[str, list[Label]]) -> LabelScore:
+    s = LabelScore()
+    for run in runs:
+        course = run.syllabus.course_id
+        labels = gold.get(course)
+        if not labels:
+            continue
+        matches = match_labels(run.outcomes, labels, run.syllabus.raw_text)
+        parts: dict[int, list[str]] = {}
+        for outcome_id, index in matches.items():
+            parts.setdefault(index, []).append(outcome_id)
+        verdicts = final_verdicts(run.decisions, run.judgments, run.human)
+
+        for index, outcome_ids in sorted(parts.items()):
+            s.split += int(len(outcome_ids) > 1)
+            label = labels[index]
+            if label.stated_not_assessed:
+                continue
+            for a in run.assignments:
+                said = [verdicts[(o, a.id)].aligned for o in outcome_ids if (o, a.id) in verdicts]
+                if not said:
+                    continue                  # every part was set aside as "not assessed"
+                answer = True if True in said else (None if None in said else False)
+                s.pairs += 1
+                if answer is None:
+                    s.waiting += 1
+                    continue
+                s.decided += 1
+                if answer == (a.id in label.aligned):
+                    s.decided_correct += 1
+                else:
+                    s.wrong.append(f"{course} outcome {index + 1} x {a.id}, judged {'aligned' if answer else 'not aligned'}")
+
+        # Untested: a stated outcome that no assignment assesses in any of its parts.
+        flagged = {g.outcome_id for g in run.gaps if g.gap_type == GapType.UNTESTED_OUTCOME}
+        expected = {i for i, label in enumerate(labels) if not label.aligned and not label.stated_not_assessed}
+        predicted = {i for i, ids in parts.items() if all(o in flagged for o in ids)}
+        s.untested_expected += len(expected)
+        s.untested_found += len(predicted & expected)
+        s.untested_false += [f"{course} outcome {i + 1}" for i in sorted(predicted - expected)]
+        s.untested_false += sorted(o for o in flagged if o not in matches)       # about an outcome no label states
+        s.finer_alarms += sorted(o for o in flagged if o in matches and matches[o] not in predicted)
+    return s

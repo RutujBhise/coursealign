@@ -136,6 +136,30 @@ def test_a_course_id_cant_escape_the_data_folder():
     assert status_of(lambda: service().add_course(**{**NEW_COURSE, "course_id": "../../etc"})) == 400
 
 
+def test_real_courses_stay_out_of_the_demo_workspace_and_stand_in_runs():
+    import shutil, tempfile
+    from coursealign.loader import load_course_data, stand_in_courses
+    from coursealign.workspace import make_workspace
+    source = Path(tempfile.mkdtemp())
+    shutil.copytree(ROOT / "data", source / "data")
+    (source / "data" / "syllabi" / "mit9999_real_course.txt").write_text("A real course\nObjectives\n", encoding="utf-8")
+    (source / "data" / "assignments" / "mit9999_assignments.json").write_text("[]", encoding="utf-8")
+    (source / "data" / "ocw").mkdir(exist_ok=True)
+    (source / "tests" / "fixtures").mkdir(parents=True)
+    shutil.copy(ROOT / "tests" / "fixtures" / "agent1_fake_replies.json", source / "tests" / "fixtures")
+    workspace = make_workspace(source)
+    assert sorted(f.name.split("_")[0] for f in (workspace / "data" / "syllabi").glob("*.txt")) == ["cs3200", "cs4530", "cs4550"]
+    assert not (workspace / "data" / "ocw").exists()
+    everything = load_course_data(source / "data" / "syllabi", source / "data" / "assignments")
+    assert [c["course_id"] for c in stand_in_courses(everything, None)] == ["CS3200", "CS4530", "CS4550"]
+    try:
+        stand_in_courses([c for c in everything if c["course_id"] == "MIT9999"], "MIT9999")
+    except SystemExit as stop:
+        assert "real model" in str(stop)
+        return
+    raise AssertionError("a stand-in run of a real course should stop and say why")
+
+
 if __name__ == "__main__":
     tests = [f for name, f in sorted(globals().items()) if name.startswith("test_")]
     for test in tests:

@@ -1,0 +1,15 @@
+=== outcome 1
+QUOTE: Have improved your ability to analyze problems, explore and invent designs, present your work, and critique the work of others
+ASSESSED BY: P1, P2, P3, FINAL
+NOTE: Phase 4 critiques in P1-P3; pitch and peer reviews in FINAL
+=== outcome 2
+QUOTE: Have developed a strong grasp of key software design notions (in particular, conceptual modeling, decoupling and abstraction) and improved skills in designing key components of a software system
+ASSESSED BY: P1, P2, P3, FINAL
+NOTE: All four require design documents or design phases
+=== outcome 3
+QUOTE: Be able to build medium-scale web applications using standard technologies, conducting all phases of development from problem analysis to deployment
+ASSESSED BY: P1, P2, P3, FINAL
+NOTE: Only P1 mentions deployment, so the others cover it in part
+=== outcome 4
+QUOTE: Have experienced the benefits and challenges of working in a team
+ASSESSED BY: FINAL

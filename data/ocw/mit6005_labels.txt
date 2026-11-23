@@ -1,0 +1,24 @@
+=== outcome 1
+QUOTE: You will have the skills to develop a small to medium-scale software system from scratch: formulating and analyzing the problem to be solved; exploring and articulating candidate designs; implementing in Java; and using testing and reasoning to ensure quality.
+ASSESSED BY: EX1, EX2, EX3, PS1, PS2, PS3, P1, P2, P3
+NOTE: The explorations count for implementing in Java only; P1-P3 require every part
+=== outcome 2
+QUOTE: You will have a solid grasp of, and ability to apply, key software engineering ideas, including invariants, decoupling, and data abstraction.
+ASSESSED BY: PS1, PS2, P2, P3
+NOTE: Invariants in PS1-PS2, abstract types and coupling in P2, datatypes in P3; hints elsewhere not counted
+=== outcome 3
+QUOTE: You will be fluent in three essential and widely used design notations (state machines, module dependency diagrams, and object models) and able to use them effectively in exploring and articulating problems and designs.
+ASSESSED BY: PS1, PS3, P1, P2, P3
+NOTE: State machines in PS1, object models in PS3, diagrams required in all three projects
+=== outcome 4
+QUOTE: You will be familiar with a variety of standard design and implementation patterns (such as model-view-controller and client-server) and with some popular technologies (such as Eclipse, JUnit, Subversion, Swing, HTTP, network sockets).
+ASSESSED BY: PS1, PS2, PS3, P1, P2, P3
+NOTE: JUnit and patterns in the problem sets; Eclipse, HTTP, design patterns, Swing, MVC, sockets in the projects
+=== outcome 5
+QUOTE: You will have a stronger inherent ability to make engineering judgments and pick the right tool for the task at hand; improved skills in design, organization and analysis; an appreciation for the importance of simplicity and abstraction; and a greater awareness of risk and how to mitigate it.
+ASSESSED BY: EX3, PS2, PS3, P1, P2, P3
+NOTE: Design judgment in EX3, design decisions in PS2-PS3, compare designs and weigh risk in the projects
+=== outcome 6
+QUOTE: You will have had some experience working collaboratively in a team.
+ASSESSED BY: P1, P2, P3
+NOTE: Only the projects mention teammates, a team contract or team building

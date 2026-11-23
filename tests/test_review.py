@@ -16,7 +16,7 @@ from coursealign.evaluate import Run, load_gold, score_pipeline
 from coursealign.gaps import final_verdicts
 from coursealign.graph import build_graph, graph_api, initial_state
 from coursealign.llm import CachedLLM, FakeLLM
-from coursealign.loader import load_course_data
+from coursealign.loader import load_course_data, stand_in_courses
 from coursealign.models import (
     AlignmentResult, AlignmentType, ExtractedOutcome, MatchConfidence, RawSyllabus, ReviewDecision,
 )
@@ -30,7 +30,8 @@ RULES = Rules.from_file(RULES_PATH)
 A1 = Agent1Config.from_file(ROOT / "data" / "rules" / "agent1.json")
 A2 = Agent2Config.from_file(ROOT / "data" / "rules" / "agent2.json")
 GOLD = load_gold(ROOT / "data" / "gold" / "alignment_labels.json")
-COURSES = {c["course_id"]: c for c in load_course_data(ROOT / "data" / "syllabi", ROOT / "data" / "assignments")}
+COURSES = {c["course_id"]: c for c in stand_in_courses(
+    load_course_data(ROOT / "data" / "syllabi", ROOT / "data" / "assignments"), None)}
 SYLLABI = {cid: c["syllabus"] for cid, c in COURSES.items()}
 EXAMPLE = ROOT / "data" / "review" / "example_decisions.json"
 FAKE_REPLIES = ROOT / "tests" / "fixtures" / "agent1_fake_replies.json"

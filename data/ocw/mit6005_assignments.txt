@@ -1,0 +1,1150 @@
+Assignments for 6.005 (MIT OCW, Fall 2008). This line is a note and is ignored.
+=== EX1 | exploration | Exploration 1: A Midi piano
+MIT OpenCourseWare
+http://ocw.mit.edu
+6.005 Elements of Software Construction
+Fall 2008
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+Exploration 1: A Midi Piano
+6.005 Elements of Software Construction | Fall 2008
+Exploration 1: A Midi Piano
+The purpose of this exploration is to give you practice coding in Java, and to introduce you to
+the state machine case study that will be presented in lecture. Your solution will be judged by
+(1) correctness -- whether it meets the specification, and (2) clarity -- whether your code is
+well-organized, carefully commented, and makes proficient use of Java. You are not required
+to use any of the ideas or patterns that have not yet been taught in lecture.
+Specification
+Your task is to build a program that allows a standard computer keyboard to be used as a
+(rather crude) electronic piano with the following features:
+● The notes of the octave above middle C are played on the numeric keys, starting with 1
+on the left and ending with the = key on the right, with a semitone between each (so
+that each pair of adjacent keys corresponds to a pair of adjacent keys on a real piano,
+including the black ones).
+● Holding a key down sustains the note, and several notes can be played at once.
+● Different instruments can be chosen. Pressing the I key cycles through the available
+midi instruments.
+● You can record and play back sequences of notes. Pressing the R key starts recording,
+and pressing it again stops recording. During recording, a red indicator is shown; this
+turns back to green when recording ends. Pressing P causes the last recorded sequence
+to be played back. Note that playback should preserve timing.
+Hints
+Your keyboard driver will probably generate repeat presses when a key is held down. You'll
+need to make sure these are filtered away so that the quality of the sound isn't damaged.
+We recommend that you implement your program as a Java applet. We are providing you
+with skeletal code that shows you how to bind methods to key presses, and how to access the
+Java midi API. You may of course use this code in your solution.
+Exploration 1: A Midi Piano
+To implement the color indicator, we recommend that you simply change the color of the
+applet's background, as shown in the sample code.
+A slight annoyance: you'll need to click on the applet's panel with your mouse to give it
+keyboard focus before playing any notes.
+Optional Challenge
+If you've successfully completed the exploration, you may want to try this optional challenge.
+Allow the P key to be pressed during recording, so that recordings can be layered, with new
+notes played being added to notes that were previously recorded. (Warning: this is tricky!)
+Addendum
+Some Java installations do not have a default soundbank installed, causing the Midi code to
+throw the exception
+java.lang.NullPointerException
+at com.sun.media.sound.AbstractPlayer.loadAllInstruments(Unknown Source)
+at midi.Midi.(Midi.java:43)
+at piano.PianoApplet.init(PianoApplet.java:24)
+at sun.applet.AppletPanel.run(Unknown Source)
+at java.lang.Thread.run(Unknown Source)
+This can be corrected by following Sun's instructions here.
+=== EX2 | exploration | Exploration 2: Building a Sudoku solver with SAT
+MIT OpenCourseWare
+http://ocw.mit.edu
+6.005 Elements of Software Construction
+Fall 2008
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+Exploration 2: Building a Sudoku Solver with SAT
+6.005 Elements of Software Construction | Fall 2008
+Exploration 2: Building a Sudoku Solver with SAT
+The purpose of this exploration is to give you practice coding in Java, and to introduce you to
+the case study that will be presented in the lectures on programming with functions and
+immutable datatypes. Your solution will be judged by (1) correctness -- whether it meets the
+specification, and (2) clarity -- whether your code is well-organized, carefully commented,
+and makes proficient use of Java. You are not required to use any of the ideas or patterns
+that have not yet been taught in lecture.
+Specification
+Your task is to build a program that completes a Sudoku puzzle by (1) translating the puzzle
+into the problem of satisfying a propositional logic formula, and (2) solving the problem using
+a SAT solver. Your program should accept a Sudoku puzzle as input, and should display a
+solution on the console. The format for the puzzle is just one line for each line of the puzzle,
+consisting of a sequence of digits (for known squares) and periods (for squares to be filled).
+We're providing you with two sample puzzles in this format, which are included in your
+repository along with this assignment.
+Background
+A Sudoku puzzle is a kind of Latin square. The aim is to complete a 9x9 grid with a digit
+between 1 and 9 in each square, so that -- as in a Latin square -- each digit occurs exactly
+once in each row and in each column. In addition, the grid is divided into 9 blocks, each 3x3,
+and each digit must also occur exactly once in each block. Sudoku is normally solved by
+reasoning, determining one step at a time how to complete an additional square until the
+entire puzzle is finished. Solving Sudoku by SAT is not very appealing for human players but
+works well on a computer.
+A propositional formula is a logical formula formed from propositional variables and the
+boolean operators and, or and not. The satisfiability problem is to find an assignment of truth
+values to the variables that makes the formula true.
+A SAT solver is a program that solves the satisfiability problem: given a formula, it either
+Exploration 2: Building a Sudoku Solver with SAT
+returns an assignment that makes it true, or says that no such assignment exists. SAT
+solvers typically use a restricted form of propositional formula called CNF.
+A formula in conjunctive normal form (CNF) consists of a set of clauses, each of which is a set
+of literals. A literal is a propositional variable or its negation. Each clause is interpreted as the
+disjunction of its literals, and the formula as a whole is interpreted as the conjunction of the
+clauses. So an empty clause represents false, and a problem containing an empty clause is
+unsatisfiable. But an empty problem (containing no clauses) represents true, and is trivially
+satisfiable.
+Davis-Putnam-Logemann-Loveland (DPLL) is a simple and effective algorithm for a SAT
+solver. The basic idea is just backtracking search: pick a variable, try setting it to true,
+obtaining a new problem, and recursively try to solve that problem; if you fail, try setting the
+variable to false and recursively solving from there. DPLL adds a powerful but simple
+optimization called unit propagation: if a clause contains just one literal, then you can set the
+literal's variable to the value that will make that literal true. (There's actually another
+optimization included in the original algorithm for 'pure literals', but it's not necessary and
+doesn't seem to improve performance in practice.)
+Wikipedia articles cover these topics nicely: Sudoku, CNF, DPLL, backtracking search, unit
+propagation.
+Infrastructure
+The exploration2 project in your repository contains this assignment and the sample Sudoku
+puzzles. Your work should be submitted by committing to this project.
+Hints
+Here are some hints to help you get the most out of this exploration and make progress
+quickly:
+● This exploration is quite challenging. You'll probably not succeed if you just start
+hacking and hope to make your way through it by brute force. Start early, and discuss
+your ideas with your TA.
+● Build your program incrementally. Start with a version that does only backtracking and
+no unit propagation, and see if you can get it to work on a tiny problem. Try a very
+small SAT problem first that is small enough that you can trace the behavior of your
+Exploration 2: Building a Sudoku Solver with SAT
+solver with print statements if necessary. Try an unpopulated Sudoku puzzle before
+you try one that is partially completed, and try smaller puzzles (2x2 and 4x4) before
+you try the full-sized puzzle (9x9).
+● You can create a standard propositional formula and convert it to CNF, but you'll find it
+easier if you generate CNF directly from the Sudoku grid. It's not hard.
+● The simplest way to encode the puzzle in logic is to create one propositional variable
+for the possibility that each symbol can be in each square. So for a 9x9 puzzle, there
+will be 9x9x9 variables. This makes it clear that backtracking search alone will likely
+fail, since the number of leaves of the search tree is 2 to the power of the number of
+variables.
+● Use immutable datatypes to represent literals, clauses and clause sets. Search is much
+easier to program if you don't have to worry about mutation and undoing previous
+decisions.
+● To solve the full-sized Sudoku problem you will probably need to increase the amount
+of memory that the Java interpreter has allocated for heap space. Recall that every
+time you run your project (as a Java program, with JUnit, etc.) Eclipse creates a run
+configuration that specifies what to run and how to run it. To increase the maximum
+heap space for a run configuration, open the Run dialog (Run → Run
+Configurations...), select the relevant configuration, select the Arguments tab, and
+enter under VM arguments -Xmx512m (for example, which sets the maximum heap size
+to 512MB).
+=== EX3 | exploration | Exploration 3: Photo organizer
+MIT OpenCourseWare
+http://ocw.mit.edu
+6.005 Elements of Software Construction
+Fall 2008
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+Exploration 3: Photo Organizer
+6.005 Elements of Software Construction | Fall 2008
+Exploration 3: Photo Organizer
+The purpose of this exploration is to give you practice coding in Java, and to introduce you to
+the case study that will be presented in the lectures on programming with mutable data and
+relations. Your solution will be judged by (1) correctness -- whether it meets the specification,
+and (2) clarity -- whether your code is modular, well-organized, carefully commented, and
+makes proficient use of Java. You are not required to use any of the ideas or patterns that
+have not yet been taught in lecture.
+Specification
+Your task is to build an organizer for digital photos, similar to the screenshot below.
+The photo organizer should have the following features:
+● A set of photos is loaded by finding all the JPEG files in a subtree of the filesystem
+specified by a command-line argument. (When run with no arguments, the organizer
+Exploration 3: Photo Organizer
+should just use the set of sample photos provided.)
+● The user can create and manage named albums of photos. An album is a subset of all
+the loaded photos. A photo can appear in more than one album. There is an album, "all
+photos", containing all the loaded photos.
+● Albums are hierarchical. An album may have subalbums, which are subsets of the
+parent album's photos. For example, the user might create a "Cambridge" album for all
+the photos taken in Cambridge, and an "MIT" subalbum under it that contains all
+photos from MIT. The "all photos" album is the root of the album hierarchy.
+● The photo organizer window has two parts: a tree on the left showing the album
+hierarchy, and an array of photo thumbnails on the right.
+● Clicking on an album name in the tree selects it. At most one album may be selected at
+a time.
+● Double-clicking on an album name displays the thumbnails for the album's photos on
+the right. (Note that the displayed album is not necessarily the same as the selected
+album, since another album can be single-clicked to select it without changing the
+displayed thumbnails.)
+● Clicking on a photo thumbnail selects or deselects it. Selected photos are highlighted in
+blue. Any number of photos may be selected.
+● Buttons on the window allow making a new album with a user-provided name, deleting
+the selected album, and adding and removing the selected photos from the selected
+album.
+● Adding and removing a photo from an album should immediately affect the album. If
+you remove a photo from an album, then that album should stop displaying that photo.
+Subsequent user operations may put the photo back in the album, however. Other
+albums may also be affected by adding or removing a photo, as necessary to preserve
+the album hierarchy property.
+● As an optional extension, display the size of each album in the tree (e.g. "MIT (45)" if
+the MIT album has 45 photos in it).
+If this specification is incomplete, you should use your own design judgement to fill in the
+details. In general, your program should not crash, throw uncaught exceptions, or allow the
+user to put the interface into a state that violates this specification.
+Infrastructure
+The exploration3 project in your repository contains this assignment, some skeleton code
+for the photo organizer, and some sample photos. Your work should be submitted by
+committing to this project.
+Exploration 3: Photo Organizer
+Hints
+Note that albums are not the same as folders in the filesystem, so you don't have to make a
+folder on disk when the user creates an album. The notion of an album is just internal to your
+photo organizer. It's also acceptable if your photo organizer completely forgets the albums
+the user created when it restarts. (As an optional extension, however, you might make the
+albums persistent by saving and loading them from a file.)
+=== PS1 | problem set | Problem set 1: The state machine paradigm
+MIT OpenCourseWare
+http://ocw.mit.edu
+6.005 Elements of Software Construction
+Fall 2008
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+Problem Set 1: The State Machine Paradigm
+6.005 Elements of Software Construction | Fall 2008
+Problem Set 1: The State Machine Paradigm
+The purpose of this problem set is to give you practice in the basic techniques of the state
+machine paradigm. You'll construct state transition diagrams and grammars for a variety of
+small problems, and code them using standard patterns.
+State Machine Reasoning
+Milk and Tea Puzzle. Here's a well-known puzzle. You have a glass of tea and an equal-
+sized glass of milk. You pour some milk into the tea, mix it up throughly, and then transfer
+the same amount of liquid back to the milk. This process is repeated some number of times.
+Is there now more milk in the tea or more tea in the milk?
+The answer is that there is exactly the same amount. To prove this, (1) construct a state
+machine to model the problem; (2) define an invariant; and (3) show that the invariant is
+true in the initial state and is preserved by the state machine's actions.
+Hint: Treat each glass as consisting of a discrete number of particles, and define an action
+that does to-and-fro transfers in a single step. Also, note that, as specified, the machine is
+already non-deterministic, since it permits an arbitrary quantity of milk to be poured initially.
+Can you make it even more non-deterministic and still preserve the invariant?
+State Diagram Modeling
+Three-way Light. A 'three-way' lighting circuit consists of two switches and a single lamp;
+toggling either switch toggles the state of the lamp. Draw a state machine representing the
+behavior of this system, with events up_1 and down_1 for moving switch 1 up and down (and
+analogously for switch 2). Show the state of the lamp by marking the states of the machine
+appropriately.
+Cruise Control. Consider a cruise-control system with these events: on (turns the system
+on); set (records the current speed and attempts to maintain it); brake (stops attempting to
+maintain speed); resume (attempts to return to and maintain last recorded speed); and off
+Problem Set 1: The State Machine Paradigm
+(turns the system off and clears any memory of a recorded speed). Draw a state transition
+diagram that shows which event sequences are accepted (assuming that on is accepted only
+when the system is off, resume only when the system is on, etc), and which of three modes
+the system is in: OFF (not operating); ON (operating but not actively controlling speed); and
+ACTIVE (actively controlling speed). A mode may correspond to one or more states. Then,
+using this diagram as a basis, construct a second diagram that includes three additional
+events that are produced as outputs: save (which saves the current speed to a register),
+control (commanding the engine to maintain the speed in the register) and relinquish
+(relinquishing control of the engine to the driver).
+Alternating Bit Protocol. One way to compensate for a lossy communications channel is to
+have the receiver acknowledge each received message and have the sender retransmit if no
+acknowledgment is obtained. But if an acknowledgment arrives late, and a resend has already
+occurred, messages and their acknowledgments get out of step. To avoid this, you can attach
+a sequence number to each message so that the receiver can indicate which message is being
+acknowledged. The simplest version of this scheme is the Alternating Bit Protocol which uses
+sequence numbers of just one bit. Here's how it works. The sender marks outgoing messages
+with a zero, then a one, then a zero, etc. The receiver acknowledges each message with the
+same bit that the message was marked with. If either the sender or the receiver gets a
+message with the wrong bit, it resends its previous message. The sender also resends a
+message if it receives no acknowledgment at all after some unspecified elapsed time. Model
+this protocol as two state transition diagrams, one for the sender and one for the receiver,
+accompanied by a list of events and their definitions. Draw a third diagram to model the
+behavior of an unreliable channel between them that can hold up to two messages at a time,
+and can drop but never corrupt or reorder messages.
+Grammar Modeling
+Multi-Unit Calculator. It's often convenient to use different units in the same computation.
+For example, to figure out how many lines of twelve-point type fit in a six-inch column, it
+would be nice to have a calculator that accepted the expression "6in/12pt". Construct two
+grammars for such a language: first, a lexical grammar that breaks the sequence of
+characters into numbers, unit specifiers, operators, and left/right parentheses, filtering out
+spaces and tabs (but not requiring them as delimiters); and second, a syntactic grammar that
+groups expressions appropriately. Your grammar should allow nesting of expressions using
+parentheses (eg, "1in + (2in + 3in)"), and it should allow unit conversions (eg, "30pt in"
+to show 30 points in inches). Note: You need only handle inches and points, and you can
+assume that every expression denotes a length or a dimensionless scalar (and not, for
+example, a product of lengths). There are 12 points in a pica, 6 picas in an inch, and thus 72
+Problem Set 1: The State Machine Paradigm
+points in an inch.
+Cruise Control. Model the cruise control system described above but using grammars
+instead of state transition diagrams.
+Implementing with Patterns
+Multi-unit Calculator. Implement the multi-unit calculator described above, with a class
+whose main method takes a single string as an argument and returns a string as a result. You
+should split your program into two separate phases, one for 'lexing' (breaking the string into
+lexical tokens), one for 'parsing' (grouping the tokens syntactically). Your code for these
+phases should correspond directly to the two grammars you designed. Provide at least three
+JUnit test cases for your code. Hint: You can perform evaluation as part of the parsing phase
+or in a separate subsequent phase.
+Alternating Bit Protocol. Implement the alternating bit protocol as described above,
+including the unreliable communications channel. Each of the three components should be
+implemented as (at least) one class with a method step which, when called, causes the
+component to take a step -- such as sending, receiving or transmitting a message. Provide at
+least three JUnit test cases for your code that include a case in which the protocol handles
+dropped messages.
+Infrastructure
+No code is provided for this problem set. A directory called pset1 will be created for you in
+your personal repository, containing a copy of this file. In addition to your code and test
+cases, you should commit your solutions to the exercises as a single PDF file.
+=== PS2 | problem set | Problem set 2: The symbolic paradigm
+MIT OpenCourseWare
+http://ocw.mit.edu
+6.005 Elements of Software Construction
+Fall 2008
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+Problem Set 2: The Symbolic Paradigm
+6.005 Elements of Software Construction | Fall 2008
+Problem Set 2: The Symbolic Paradigm
+The purpose of this problem set is to give you practice in the basic techniques of the symbolic
+paradigm. You will model datatype productions, write recursive functions over those
+datatypes, practice with structural induction, and implement datatypes as classes.
+Datatype Reasoning
+Length of append [10%]. Given a datatype List and two functions over the datatype size
+and append defined as follows:
+List<E> = Empty + Cons(first:E, rest:List<E>)
+size: List<E> → int
+size(Empty) = 0
+size(Cons(f,r)) = 1 + size(r)
+append: List<E> x List<E> → List<E>
+append(Empty, l) = l
+append(Cons(e,l1), l2) = Cons(e, append(l1,l2))
+Show using structural induction that size(append(x,y)) = size(x) + size(y).
+Datatype Modeling
+Suppose you're developing a system for doing physics calculations (simple mechanics, as
+used in 8.01; e.g. Newton's laws of motion and Newton's law of gravitation.).
+Physical units [10%]. One helpful feature in a physics-handling system is to check
+expressions for unit correctness. For example, an expression that adds mass to velocity is
+nonsensical. Model the units of a physical quantity used in mechanics. Your datatype should
+be able to handle dimensionless values (like pi and e), the basic SI units for mechanics
+(meters, grams, and seconds), and the units of physical variables like velocity, momentum,
+Problem Set 2: The Symbolic Paradigm
+force, and energy.
+Expressions for physical computations [10%]. Design a datatype that models the
+mathematical expressions you need to represent problems in mechanics. The expressions
+should be over the real numbers; should be able to represent numerical constants (like 0),
+named constants (like G or g), and variables (like F, m, a); should include the basic
+arithmetic operators (addition, multiplication, exponentiation, etc.), differentiation and
+integration in one variable, and equality (like F=ma). Constants and variables should have
+physical units, using the datatype you defined in the previous problem. Briefly discuss the
+design decisions you made -- e.g., does your datatype permit nonsensical expressions?
+Note: These datatypes should be defined using abstract datatype productions (similar to the
+way we defined List and Tree in class), not in Java.
+Datatype Operations
+Unit checking [15%]. Define a boolean-valued function unitsCheck over your physical
+expressions that is true if and only if the the units of the expression check correctly. Write
+your function as a recursive definition, not in Java. Hints:
+● You may need to define additional helper functions to determine the units of an
+expression or test for unit equality. Don't just assume the existence of these helper
+functions; provide definitions for them if you need them.
+● Checking for unit equality may be tricky, depending on how you defined your units
+datatype. It may help to use a canonical form that puts a units expression in lowest
+terms and determines the exponents of each of the three physical quantities (mass,
+length, time). For example, the units of acceleration (m/s2) would be canonically
+represented by length 1, time -2, mass 0. You can define the canonical form either as a
+new datatype (i.e., a triple of integers) or as a set of functions over your units
+datatype (e.g., mass:Units → int).
+Arrays [15%]. This problem uses an immutable datatype to represent arrays, which are
+data structures that map integers to objects. An array is represented by a binary tree, in
+which each node stores an element of the array:
+Array<E> = Empty + Node(elem:E, left:Array<E>, right:Array<E>)
+The array is indexed starting from 1. Each tree node has an index given (in binary) by its
+path to the root, as follows. Start with 1 for the node itself, and append 0 or 1 for each step
+back to the root, depending on whether it was a left branch or a right branch. The diagram
+Problem Set 2: The Symbolic Paradigm
+below shows the nodes with index 1 through 12.
+The element at index i is stored in the tree node with index i according to this scheme, so a
+[1] would be stored in the root. Note that indexes are not stored in the tree; an index is used
+to find a node by walking down from the root. Also, an array may not have gaps, so if it
+contains n elements, then the elements must be indexed from 1 to n. The binary tree is not
+necessarily complete, however, so some nodes in the tree may have only one nonempty child
+(like nodes 5, 6, and 7 in the picture above).
+Give recursive definitions for the following operations:
+● size(a) returns the number of elements in an array.
+● get(a,i) returns the element at index i in array a (or is undefined if i is out of range).
+● put(a,i,e) returns a new array which maps index i to element e and is otherwise
+identical to a. (Undefined if i is negative or zero, or if it would create an array with a
+gap.)
+Hint: you may need to write conditional expressions in your function definitions. Here's a
+simple model:
+abs: int → int
+abs(x) = if x < 0 then -x else x
+Implementing Datatypes
+Arrays [20%]. Implement the array datatype from the previous problem using Java classes,
+and implement get, put, and size as methods. Write a JUnit test suite that tests your
+datatype. Note that your datatype should be immutable, and you will have to make design
+decisions about what the methods should do when the result is undefined.
+Problem Set 2: The Symbolic Paradigm
+Arbitrary-precision rational numbers [20%]. Implement an immutable abstract data
+type for rational numbers. Represent a rational number using two java.math.BigInteger
+values, a numerator and a denominator, which should always be stored in lowest form (i.e.,
+not 4/8, but 1/2). You'll find BigInteger's gcd operation useful; a.gcd(b) returns the greatest
+common divisor of a and b.
+Implement your data type as a Java class called Rat. It should have the following parts:
+● Representation, consisting of private fields
+● Rep invariant, implemented by a checkRep() method
+● Abstraction function, implemented by a toString() method
+● Constructor Rat(BigInteger num, BigInteger denom)
+● Operations provided by the following methods:
+public boolean isZero()
+public boolean isOne()
+public Rat plus(Rat that)
+public Rat minus(Rat that)
+public Rat times(Rat that)
+public Rat divide(Rat that)
+● Preconditions and postconditions on the constructor and operations
+● A JUnit test suite called RatTest that tests Rat
+Infrastructure
+No code is provided for this problem set. A directory called pset2 will be created for you in
+your personal repository, containing a copy of this file. In addition to your code and test
+cases, you should commit your solutions to the exercises as a single PDF file.
+=== PS3 | problem set | Problem set 3: The relational paradigm
+MIT OpenCourseWare
+http://ocw.mit.edu
+6.005 Elements of Software Construction
+Fall 2008
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+Problem Set 3: The Relational Paradigm
+6.005 Elements of Software Construction | Fall 2008
+Problem Set 3: The Relational Paradigm
+The purpose of this problem set is to give you practice in the basic techniques of the
+relational paradigm. You'll construct a variety of object models, and code one of them using
+standard patterns. You'll also do a small exercise to check that you understand some of the
+complexities of of mutable datatypes.
+Mutable Datatypes
+Investigating Java's Set. The specification of java.util.Set says that a set should not
+contain itself. Write a JUnit test for one of the standard Java library implementations of Set
+that violates this rule and fails; explain what's happening carefully and succinctly; and explain
+how the principles of the lecture on mutable types address this issue.
+Object Modeling
+For each of the following problems, construct (1) a graphical object model, accompanied by
+(2) designations that give a crisp and precise one sentence meaning for each set and relation
+name, and (3) three object diagrams showing interesting cases of instances satisfying the
+model.
+Sudoku. Model the state of a puzzle, allowing for both completed and incomplete grids, and
+making explicit the grouping into rows, columns and subgrids.
+Slide Animation. Model a slide containing textual and graphical elements, along with
+settings for animation. Include grouping of elements, and appearance order and effects.
+Domain Name System (DNS). Model domain names and the architecture for resolving
+them. Your model should include the structure of the domain names, their relationship to IP
+addresses, the network of domain name solvers, and caches (and little else!). For an
+explanation of DNS, see the wikipedia article. Do not worry about the low level structure of
+DNS records; your model should show the structure of the system (and the state of the
+servers) at an abstract level.
+Problem Set 3: The Relational Paradigm
+Social Network. Model a social network (as found, for example, in Facebook, MySpace and
+LinkedIn) that includes the following features: members, friendship, groups, profiles, posted
+objects, tagged photos, recent activity feeds, pending invitations.
+Election Ballots. Model the voter input in a US federal election, consisting of a set of marked
+ballots, containing sufficient information to determine the outcome of the presidential
+election, senate and congressional races, and state ballot questions.
+Address Book. Model an email address book that associates user-defined names with email
+addresses, and includes the ability to distinguish home and work addresses, forming groups
+of multiple addresses, and using indirection to allow groups to contain groups and user-
+defined names.
+Object Model Implementation
+Implement an address book, based on the object model that you constructed. Your address
+book should provide an API, as a class AddressBook, that provides key operations for
+entering and editing entries, displaying entries, and for resolving a user-defined name to the
+email addresses it represents. Indicate precisely which object model implementation patterns
+you used, and how they were applied to derive the implementation structure from the object
+model. Construct a suite of test cases based on partitioning that gives reasonable coverage of
+the specification of the API, and make sure to include the three sample instances that you
+devised for your object model.
+Your solution will be judged on the clarity of structure of your code, on how well you mapped
+the model to the code, on the quality of design of your API, and on quality of the testing you
+performed.
+Infrastructure
+No code is provided for this problem set. A directory called ps3 will be created for you in your
+personal repository, containing a copy of this file. In addition to your code and test cases, you
+should commit your solutions to the exercises as a single PDF file.
+=== P1 | project | Project 1: Multipart Data Transfer
+MIT OpenCourseWare
+http://ocw.mit.edu
+6.005 Elements of Software Construction
+Fall 2008
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+Project 1: Multipart Data Transfer
+6.005 Elements of Software Construction
+Fall 2008
+Project 1: Multipart Data Transfer
+● Problem
+● Purpose
+● Specification
+● Tasks
+● Infrastructure
+● Deliverables and Grading
+● Hints
+Problem
+One way to handle the problem of reliably storing large files is to break them into pieces that
+are placed on multiple disks or machines. At the same time, a way to download a data stream
+more quickly is to break it into parts and download the different parts from different peers.
+You're probably familiar with this idea from BitTorrent, the peer-to-peer file sharing protocol,
+and it's used in a variety of other contexts. By downloading streams in multiple small parts,
+Project 1: Multipart Data Transfer
+the chance of the entire download failing is reduced (since each part can be restarted
+individually) and load is spread more evenly across the network.
+In this project, you will build a multipart downloader that assembles a data stream from
+multiple, potentially endless, parts streaming individually from multiple machines. It allows
+the same part to be stored redundantly in multiple locations so it can be resilient to failures.
+Since the multipart streams you will be downloading may be unbounded and never end, your
+program will assemble the stream incrementally from its parts as they are downloaded,
+displaying the file or streamed sequence of files (an animated sequence of images, for
+example) as the download progresses.
+In later projects, you'll be asked to refine the problem itself. In this case, however, the
+problem is largely fixed. You are given a particular protocol format (described below) and
+required to implement a single method, Multipart.openStream() (although you will likely
+wish to design and use other classes to help with this task). Thus your task is essentially the
+implementation of a simple API for multipart data transfer. Being an API ('application
+programmer interface') simply means your solution can be accessed 'programmatically', that
+is by method calls, rather than through a GUI, for example. Separating out an API is
+generally good practice because it allows the code to be used in a variety of contexts,
+separates the user interface from the core functionality, and makes testing easier. We are
+providing you with a simple GUI that can be easily combined with the API. The openStream()
+method of the API returns an InputStream for reading from the multipart stream; the GUI
+then simply reads serially from this stream, but it could be used more ambitiously, for
+interleaving the downloading of multiple streams, for example.
+The breakdown of the stream into parts is specified in a special manifest stream. Your code
+will have to parse this stream, using it to determine which parts to download. Furthermore,
+these parts can themselves be manifest streams, in which case your code should recursively
+stream the sub-parts. Both this parsing and the downloading process itself are naturally
+expressed as state machines.
+A variety of failures can occur, and it will be up to you to figure out what they are and decide
+how they should be handled.
+Purpose
+The purpose of this project is to help you (1) become familiar with the basic tools of software
+development in Java -- the language, the Eclipse IDE, and the JUnit testing framework; (2)
+get you started programming in Java in a simple imperative style; (3) learn how to conceive
+--
+--
+--
+--
+Project 1: Multipart Data Transfer
+of software systems and the environments in which they operate as state machines, and to
+record designs and environmental assumptions with state machine diagrams; (4) begin to
+appreciate the importance of testing in building high quality software; (5) acquire some
+familiarity with some important computer system concepts and technologies, such as URLs
+and HTTP, redundancy and fault tolerance.
+Specification
+Manifest Streams
+A manifest stream specifies how a given stream is broken into parts.
+Your program can assume that a URL points to a manifest stream if and only if the stream
+has the content type text/parts-manifest or its URL ends with the suffix .parts.
+Each part in a manifest stream is separated by a line containing two dashes. For example, the
+file picture.jpg may be broken into three parts all stored on the same machine:
+http://mymachine.mit.edu/picture.jpg-part1
+http://mymachine.mit.edu/picture.jpg-part2
+http://mymachine.mit.edu/picture.jpg-part3
+To download this stream, your program would download each part in succession, thus
+recreating the original file.
+The manifest stream can give alternatives, so that a part, or several parts, can be stored
+redundantly in different locations:
+http://mymachine.mit.edu/picture.jpg-part1
+http://yourmachine.mit.edu/picture.jpg-part1
+http://mymachine.mit.edu/picture.jpg-part2
+http://yourmachine.mit.edu/picture.jpg-part2
+http://mymachine.mit.edu/picture.jpg-part3
+http://yourmachine.mit.edu/picture.jpg-part3
+In this case, the three parts are all stored on the machine mymachine.mit.edu and also on
+the machine yourmachine.mit.edu; for each part, if the first machine is not accessible, your
+--
+--
+--
+--
+--
+--
+Project 1: Multipart Data Transfer
+downloader should try the second.
+Manifest streams can also be recursive. For example, the manifest stream http://mymachine.
+mit.edu/endless.txt.parts might look like:
+http://mymachine.mit.edu/verse.txt
+http://yourmachine.mit.edu/verse.txt
+http://hermachine.mit.edu/verse.txt
+http://yourmachine.mit.edu/chorus.txt
+http://mymachine.mit.edu/endless.txt.parts
+Thus the last part of this manifest stream refers back to itself, so a client reading from your
+Multipart implementation would receive an endless stream alternating between the contents
+of verse.txt and the contents of chorus.txt.
+Note also that in the preceding manifest stream there are three alternatives for verse.txt
+but only one for chorus.txt and endless.txt.parts. Like in BitTorrent, certain parts may
+only be hosted by certain servers. Then again, it should never hurt if a nonexistent or
+perhaps even malformed URL is listed as an additional alternative source, since your code
+should be able to handle this and try a different alternative.
+Finally, keep in mind that we are assuming all URLs point to potentially unbounded streams,
+not necessarily finite-length files. Thus another way to produce the endless series of verses
+and choruses would be an endless manifest stream (generated by a program running at the
+URL, for example):
+http://mymachine.mit.edu/verse.txt
+http://yourmachine.mit.edu/chorus.txt
+http://mymachine.mit.edu/verse.txt
+http://yourmachine.mit.edu/chorus.txt
+[...]
+and so on...
+Application Behavior
+Project 1: Multipart Data Transfer
+The GUI offers
+a text field
+and an
+adjacent
+button marked
+Start. The
+user enters a
+URL in the
+text field
+pointing to a
+manifest
+stream (which
+may be local
+or on another
+machine) and
+clicks on the button. The application then downloads the stream part-by-part. If the stream
+results in a single finite file, the file is downloaded in its entirety and then displayed in the
+window. The GUI also supports (potentially endless) file-sequence streams, described below.
+Each file in these sequences is downloaded and displayed in succession, creating, for
+example, an image animation or textual progression. The Step button downloads and displays
+the next file in a sequence stream, and the Animate slider controls automatic stepping, for
+example to watch an animated sequence of image files.
+API
+The GUI component of the application is provided for you. Your task is to implement the
+method Multipart.openStream(), satisfying the specification in the javadocs for the
+Multipart class. You may want to create other classes as well to help with this task, but the
+sole entry point where the GUI will call your code is Multipart.openStream().
+Handling faults
+A variety of failures may occur during execution, which your code should deal with gracefully.
+These include network failures (e.g. the program cannot download a file), manifest file syntax
+errors, and other failure scenarios.
+Tasks
+You should perform the following tasks:
+Project 1: Multipart Data Transfer
+● Laboratory. Complete the first lab of this project. A separate handout describes the
+lab activities.
+● Problem Refinement. Analyze the problem statement carefully, and resolve any
+ambiguities or omissions. In particular, you should specify the structure of the manifest
+file using a grammar, clarify any assumptions that are necessary, and should specify
+what failures will be handled and how. In most cases, there will be no obvious best way
+to refine the problem, so you should use your own judgment and justify your decisions
+carefully (but briefly!). Your work should include a refined specification for the
+Multipart class itself.
+● Abstract Design. Design a multipart downloader by describing a state machine (with
+a grammar or a state machine diagram) that describes the behavior of the downloader
+itself. You will probably find it easiest to start with the assumption that there are no
+failures, so that you can identify the major modes and the transitions between them,
+and then to consider the various failures that can occur. You may end up designing two
+state machines, such as a parser and a downloader.
+● Code Design. Sketch the code structure using dependency diagrams for two possible
+implementations of your abstract design that differ substantively. List their relative
+merits, select one of them, and explain why you chose it. You should consider, in
+particular, whether your design is testable; it should be easy, for example, to simulate
+failures so that you can test your code against them.
+● Design Meeting. Your TA will arrange to meet with your group during lab time (11am-
+2pm) on Friday, October 3, the day after your first deliverables are due.
+● Implementation. Implement your chosen code design in Java. You might find that
+you want to make changes to your design. You are free to do this, but should record
+the changes so it is clear what the original design was and what changes you made to
+it.
+● As you write the code, you should include a succinct specification of each method as a
+javadoc comment, and additionally a comment at the top of each class explaining its
+role.
+● Test. Run the staff test suite using the test framework provided. If your program fails
+any of the tests, correct the problem, and rerun the test suite. Create at least three
+additional test cases of your own, that demonstrate the robustness of your Multipart
+implementation.
+● Reflection. Write a brief commentary saying what you learned from this experience.
+What was easy? What was hard? What was unexpected? Briefly evaluate your solution,
+pointing out its key merits and deficiencies.
+Infrastructure
+We provide some example manifest streams. In approximate order of complexity, these are:
+Project 1: Multipart Data Transfer
+● http://mit.edu/6.005/www/fa08/project1/cheerup.jpg.parts
+● http://mit.edu/6.005/www/fa08/project1/yellowsub.txt-seq.parts
+● http://mit.edu/6.005/www/fa08/project1/icarus.jpg.parts
+● http://mit.edu/6.005/www/fa08/project1/empty.txt.parts
+● http://mit.edu/6.005/www/fa08/project1/bettyboop.png-seq.parts
+● http://mit.edu/6.005/www/fa08/project1/hair.jpg.parts
+● http://scripts.mit.edu/~6.005/project1/fly.txt-seq.parts.cgi
+(Note that if you want to look at the contents of these manifests in a browser, you may have
+to save the files and then open them in a text editor. In particular, Firefox will sometimes just
+display the URL of the file, as though it were the contents of the file.)
+For comparison, some of the original single-part files are in the same directory.
+Deliverables and Grading
+For the first deadline, your deliverables are:
+● the problem refinement;
+● the abstract design;
+● and the code design;
+and for the second deadline:
+● the implementation;
+● the tests;
+● and your reflections.
+Your code should be committed in the repository you share with your teammates by the
+deadline. All other parts of the project should be stored in your repository as two separate
+PDF documents, one for each deadline.
+Grades will be allotted according to the following breakdown: problem refinement -- 20%;
+abstract design -- 20%; code design -- 20%; implementation -- 20%; testing -- 10%;
+reflection -- 10%.
+Hints
+Project 1: Multipart Data Transfer
+Understanding the protocol. Look at the contents of the manifest files we provide, using a
+web browser. (You may have to save the files and then open them in a text editor. In
+particular, Firefox will sometimes just display the URL of the file, as though it were the
+contents of the file.) The structure is quite simple, and examining the manifest files and the
+parts of text files (which, unlike image files, have well-formed subparts) will give you an
+intuition for what your program should be doing.
+Extending InputStream. Your code design may call for creating a subclass of java.io.
+InputStream. You should understand, by reading the InputStream javadoc, why you only
+need to override read() to have a legitimate subclass of InputStream. Consider what you
+would need to do differently if the implementation details of InputStream weren't so clearly
+documented. Also consider whether you want to override the close() method.
+Using local file URLs. You can use URLs starting with file:// to access local files. This
+could be useful for both debugging and testing.
+Manifests (.parts files) are different from sequences (-seq files). Your job in this
+project is to download, parse, and interpret manifests. The sequence file format is
+implemented by FileSequenceReader, which you will unit-test in the lab. You can think of the
+sequence format as a primitive movie format that we've invented (analogous to .mov or .avi).
+Manifests may include -seq files, but your code shouldn't treat them any differently from
+other file formats, like .txt or .jpg. In particular, Multipart.openStream() should not convert a
+manifest into a sequence stream (i.e., it should not precede each part with its length as a 4-
+byte integer). Multipart.openStream() should return a stream that simply concatenates all the
+parts together.
+=== P2 | project | Project 2: An abc music player
+MIT OpenCourseWare
+http://ocw.mit.edu
+6.005 Elements of Software Construction
+Fall 2008
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+Project 2: An ABC Music Player
+6.005 Elements of Software Construction
+Fall 2008
+Project 2: An ABC Music Player
+● Problem
+● Purpose
+● References
+● Specification
+● Tasks
+● Infrastructure
+● Deliverables and Grading
+● Hints
+Problem
+Composition of a musical piece is often a trial-and-error process, in which the musician writes
+down a series of notes on paper and tests them out on a musical instrument, such as a piano.
+One way to do this on a computer is to type the notes into a text file using a special notation
+and feed them to a program that understands this notation. This way, you can transcribe your
+favorite pieces of music or compose your own pieces, and easily exchange them among your
+friends on the web.
+abc is one of the languages designed for this purpose. It was originally intended for notating
+folk and traditional tunes of Western Europe, but it provides a sufficient set of constructs for
+transcribing a reasonably complex piece of music, such as a Beethoven symphony. Since its
+invention in 1980's, abc has become one of the most popular notations for music, with around
+Project 2: An ABC Music Player
+50,000 abc files circulating around the web.
+In this project, you will build an abc player that plays an abc file, by parsing it and feeding it
+to the Java Midi API. You are required to handle only a subset of the language, which we will
+discuss in more detail below in the Specification section. This subset is sufficient to play a
+large number of interesting tunes that are available on the web, but you are welcome to
+implement the rest of the standard, as long as your overall design remains clean and simple.
+Purpose
+The purpose of this project is to help you gain experience in (1) designing and implementing
+programs in the functional style (that is, making extensive use of functions over immutable
+types); (2) designing and implementing abstract types; and (3) using common design
+patterns for constructing and traversing structures (such as Variant as Class, Interpreter,
+Iterator, and Visitor). It also introduces you to the fundamentals of compilation, in particular:
+(4) expressing a language as a grammar; (5) converting a text to an abstract syntax tree;
+and (5) organizing a compiler into phases (lexing, parsing, static semantic analysis, etc).
+Finally, the project will give you further practice in software engineering fundamentals, such
+as (6) clarifying a problem statement; (7) inventing clear and simple interfaces to minimize
+coupling, and identifying and resolving undesirable dependences; (8) structuring a program
+to make it easily testable, organizing, executing and evaluating test suites; and (9) working
+collaboratively in a team.
+References
+Before reading the problem specification, you should keep in mind that this document is NOT
+meant to provide you with comprehensive information on the abc notation. Instead, you
+should consult the following list of sites during your project:
+● abc standard v1.6: Current official standard for abc.
+● Required abc subset: a description of the required abc subset, including the grammar
+in an EBNF. For your interest, the full EBNF can be found here, but remember, you are
+required to implement ONLY our subset.
+● Chris Walshaw's abc site: An informative web site by the inventor of the language.
+Among other things, the site contains a set of examples and a tutorial, which should
+help get you up to speed with abc.
+● John Chambers' abc site: Another comprehensive site on abc. A great feature on this
+site is the abc tune finder, which lets you search through thousands of abc files around
+the web.
+Project 2: An ABC Music Player
+● Wikipedia article on abc.
+● Wikipedia article on modern musical symbols: A fairly comprehensive overview of the
+Western musical notation.
+Specification
+Note: You are NOT allowed to use any code taken from an existing abc player as a part of
+your implementation in this project, although you may study existing implementations and
+incorporate features of their design if you want to.
+Required Subset of abc. The subset of abc that you are required to implement in this
+project is described in a separate document, the abc subset for 6.005.
+Semantic Analysis. In addition to making sure that an input file is syntactically well formed
+with respect to the provided EBNF, you must also carry out checks to ensure that the music is
+semantically consistent. This phase is usually called static semantic analysis in a compiler. For
+example, one type of analysis that you might want to do is to check that the sum of the
+durations of notes in every bar is equal to the value that is represented by the meter
+(although this particular rule has some exceptions). In your specification, you should define a
+set of semantic checks and how you plan to deal with them, by displaying intelligible error or
+warning messages when problems are encountered, and either terminating without playing
+the piece or playing it as best you can.
+Interface Requirement. Your abc player should be a stand-alone Java application that takes
+as its only input argument the name of the abc file to be played. In addition to playing the
+music using the Java Midi API, it should also write the header information to the standard
+output stream so it can be displayed on a console.
+Tasks
+You should perform the following tasks:
+● Laboratory. Complete the lab for this project. A separate handout describes the lab
+activities.
+● Abstract Specification/Design. Describe the abc input files and the structures you
+plan to build from them using grammars, state machines and datatype productions.
+Note that the standard grammar will likely not be in a suitable form for parsing, and
+you may need to formalize aspects of the input file that are usually described
+informally (such as the lexical structure). List the semantic checks you will perform,
+and describe how violations will be treated.
+● Code Design. Sketch the code structure using dependency diagrams for two possible
+Project 2: An ABC Music Player
+implementations of your abstract design that differ substantively. List their relative
+merits, select one of them, and explain why you chose it.
+● Implementation. Implement your chosen code design in Java. You may find that you
+want to make changes to your design. You are free to do this, but should record the
+changes so it is clear how and why you diverged from the original design.
+● Test. Run the staff test suite using the test framework provided. Create at least three
+additional test cases (e.g. your own abc files) to demonstrate that your player is able
+to correctly parse and play various musical constructs, and also detect any semantic
+errors in an abc file.
+● Reflection. Write a brief commentary saying what you learned from this experience.
+What was easy? What was hard? What was unexpected? Briefly evaluate your solution,
+pointing out its key merits and deficiencies.
+Infrastructure
+We are providing you with the SequencePlayer class, which you may use to play a sequence
+of notes in your abc player. The SequencePlayer is essentially a scheduler. Its addNote(int
+note, int tick, int duration) method allows you to schedule a note (whose pitch is
+represented by note) starting at some time step (tick) for a certain duration (the number
+of ticks for which this note should be played). You may also use the provided Pitch class to
+obtain a numeric value of the pitch for a certain note (look at toMidiFrequency() method).
+We are also providing some example abc files that you can use to test your abc player
+(included in the SVN directory sample_abc):
+● A simple scale (scale.abc)
+● A Little Night Music by W. A. Mozart (little_night_music.abc)
+● Paddy O'Rafferty, an Irish tune (paddy.abc)
+● Invention by J. S. Bach (invention.abc)
+● Prelude by J. S. Bach (prelude.abc)
+● Fur Elise by L. v. Beethoven (fur_elise.abc)
+You can find many more examples online, including here.
+Deliverables and Grading
+For the first deadline, your deliverables are:
+Project 2: An ABC Music Player
+● the abstract specification/design;
+● and the code design;
+Your TA will arrange to meet with your group during lab time to discuss your design deliverables.
+The deliverables for the second deadline are:
+● the implementation;
+● the tests;
+● and your reflections.
+Your code should be committed in the repository you share with your teammates by the
+deadline. All other parts of the project should be stored in your repository as two separate
+PDF documents, one for each deadline.
+Grades will be allotted according to the following breakdown: abstract design -- 25%; code
+design -- 25%; implementation -- 30%; testing -- 10%; reflection -- 10%.
+Hints
+Start early! This project is more work than it seems. Starting early on the project will give
+you more time to sort out any issues and ask the staff questions that may arise.
+Lexing and parsing: In some ways, this project is similar to the implementation of the multi
+unit calculator from Problem Set 1. Given the grammar for abc, you will need to build a 'lexer'
+that breaks the input string into tokens and a 'parser' that groups the tokens into a valid
+syntactic construct.
+Designing datatypes: The evaluation of an expression in the multi-unit calculator from
+Problem Set 1 was relatively simple. However, for the design of your abc player, you should
+think much more carefully about datatypes that you need to represent the musical
+constructs in abc. Start with simple constructs, such as notes and rests, and think about how
+you would build up on these primitive objects to create more complex structures. How would
+you represent a triplet? A chord? What does a bar consist of? How would you represent
+multiple voices? Sort out answers to these questions with your team members during the
+design stage.
+Evaluating expressions: Once you parse an abc file and create your own internal
+Project 2: An ABC Music Player
+representation of the music as an abstract syntax tree (AST), you will need to perform
+various computations that involve traversing the tree, possibly multiple times. Consider
+carefully the patterns you learned in lecture for performing these traversals.
+Parsing and pattern matching: We recommend that you follow the JSP approach to
+parsing the abc file; this will make it easiest to write a single parser that can handle the
+entire file, with complexities such as bars split across lines. You may also find the Java
+pattern matching libraries such as java.util.regex.Pattern and java.util.regex.
+Matcher helpful, but you should use them judiciously.
+Multiple voices: A particular challenge you should think about is how you will represent
+multiple voices, and how you will merge them into a single sequence of midi events.
+=== P3 | project | Project 3: Instant Messaging
+MIT OpenCourseWare
+http://ocw.mit.edu
+6.005 Elements of Software Construction
+Fall 2008
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+Project 3: Instant Messaging
+6.005 Elements of Software Construction
+Fall 2008
+Project 3: Instant Messaging
+Problem
+Purpose
+Specification
+Tasks
+Infrastructure
+Deliverables and Grading
+Hints
+Resources
+Problem
+Instant messaging (IM) is a staple of the web and has been around almost since its inception,
+starting with simple text-based programs like talk and IRC and progressing to today's GUI-
+based IM clients from Yahoo, Microsoft, AOL, etc. In this project you will design and
+implement an IM system, including both the client and the server. The following
+characteristics constrain the design space of an IM system:
+● Real-time communication. An IM conversation happens in real time: one person
+types some text, presses "enter," and the other person (almost) immediately sees the
+text.
+● Number of parties. An IM conversation can happen between two or more people.
+Some systems only allow two people to communicate; others allow more than two
+This course makes use of Athena, MIT's UNIX-based computing environment. OCW does not provide access to this environment.
+Project 3: Instant Messaging
+people. Most systems allow a person to be involved in multiple conversations at the
+same time.
+● Based on typed text. The main mode of communication is via text, as opposed to
+voice or video.
+● Connected over a network. The parties involved in the communication may be in
+physically remote locations, and are connected over the internet.
+Your task will be to design an instant messaging system with the above properties, as well as
+additional properties that you will incorporate into your design. This system will include a
+server component that handles the transfer of messages and other data, and a client
+component with a graphical user interface.
+Purpose
+The purpose of this project is twofold. First, you will learn several Java technologies, including
+networking (to support connectivity over a network), sockets and I/O (to support real-time,
+text-based communication), and threads (to support two or more people communicating
+concurrently). State machines may be useful to specify certain aspects of the system's
+behavior.
+Second, this project will introduce you to the state-of-the-art for enabling human-computer
+interaction: graphical user interfaces. You will:
+● become familiar with Swing, a graphical user interface (GUI) toolkit for Java, that is
+similar to many other such toolkits;
+● learn important GUI programming concepts, including the notion of a view hierarchy
+and the model-view-controller design pattern;
+● use event-based programming and the publish-subscribe pattern;
+● use object modeling notation to explore and express these structures;
+● and confront user interface design challenges.
+Throughout the project, you will need to design and implement mutable datatypes, paying
+particular attention to their specifications and how they interact with one another.
+Specification
+Implement an IM system in Java with the following properties:
+Project 3: Instant Messaging
+● Client. The client is a
+program that opens a network
+connection with the IM server
+at a specified IP address and
+port number. Once the
+connection is open, the client
+program presents a graphical
+user interface for performing
+the interactions listed below.
+● Server. The server is a
+program that accepts
+connections from clients. A server should be able to maintain an unlimited number of
+open client connections, and clients should be able to connect and disconnect as they
+please.
+The server is responsible for managing the state of both clients and conversations.
+● Conversations. A conversation is an interactive text-exchange session between some
+number of clients, and is the ultimate purpose of the IM system. The exact nature of a
+conversation is not specified (although the hints section details a couple possibilities),
+except to say that it allows clients to send text messages to each other. Messaging in a
+conversation should be instantaneous, in the sense that incoming messages should be
+displayed immediately, not held until the recipient requests them.
+● Client/server interaction. A client and server interact by exchanging messages in a
+protocol of your devising — the protocol is not specified. Using this protocol, the user
+interface presented by the client should:
+�
+❍ Provide a facility for seeing which users are currently logged in;
+�
+❍ Provide a facility for creating, joining and leaving conversations;
+�
+❍ Allow the user to participate in multiple conversations simultaneously;
+�
+❍ Visually separate messages of different conversations (e.g., into distinct
+windows, tabs, panes, etc.);
+�
+❍ Provide a history of all the messages within a conversation for as long as the
+client is in that conversation;
+● No authentication. In a production system, logging in as a client would require some
+form of password authentication. For simplicity, this IM system will not use
+authentication, meaning that anyone can log in as a client and claim any username
+Project 3: Instant Messaging
+they choose.
+Tasks
+1. Team preparation. Meet with your team during the project work period on November
+19 and complete the lab on team building.
+2. Individual preparation. Complete the lab on networking by checking out friendly
+from your personal SVN repository. You may also complete the optional Swing lab by
+checking out guiwords from your personal SVN repository (or you may do this lab with
+your group). These labs are independent of each other.
+3. Abstract design. Define a precise notion of conversation in your IM system. See the
+hints on how to do this. Construct an object model that captures the essential concepts
+of instant messaging from a problem perspective, and their relationships to one
+another. Explain the important modeling decisions you made. Describe alternatives to
+particular decisions and justify your choice.
+4. Client/server protocol. Design a set of commands the clients and server will use to
+communicate, allowing clients to perform the actions stipulated by the specification.
+Create a specification of the client/server protocol as a grammar or state machine.
+Describe possible protocol messages, the state of the server, and the state of the client
+(if it stores any).
+5. Usability design. Sketch your user interface and its various screens and dialogs. Use
+these sketches to explore alternatives quickly and to plan the structure and flow of
+your interface. Sketching on paper is recommended. Turn in the sketches you decided
+to go with, along with commentary as needed to explain non-obvious parts. Briefly
+point out the merits of your design.
+6. Code design. Design your program with a module dependency diagram that includes
+all model, view, and controller classes. Explain important design decisions, and justify
+your choices with reference to specific alternatives for particular decisions. Your design
+should minimize the risk of concurrency bugs (like race conditions and deadlocks) and
+should support easy unit testing of your modules.
+7. Testing strategy. Devise a strategy for testing your IM system. Describe what
+automated tests you will use, and what manual tests you will perform. Since UI front-
+end testing is often most easily done by hand, documentation of your strategy is
+especially important. As you think about how to test your program, you are likely to
+find that you want to revisit your code design (for example, to make a cleaner API to
+permit unit testing independently of the GUI).
+8. Implementation. As always, your code should be clear, well-organized, and usefully
+documented. See the hints for further suggestions.
+9. Testing. Execute your testing strategy, using JUnit and by performing manual tests of
+Project 3: Instant Messaging
+the GUI. In your report, document the results of your manual tests.
+10. Reflection. Write a brief commentary describing what you learned from this
+experience:
+�
+❍ What was easy?
+�
+❍ What was hard?
+�
+❍ What was unexpected?
+�
+❍ What would you do differently in designing the chat system if you were to do it
+again?
+Infrastructure
+Use the networking lab to learn about network I/O in Java, and the Swing lab for details on
+GUI programming.
+No initial code is provided for this project. However, two runner classes are provided with
+main methods you should fill in:
+● Running main.Client.main(String[]) must start an instance of your GUI chat client.
+● Running main.Server.main(String[]) must start an instance of your chat server.
+You should consider using packages other than main to organize your code.
+Deliverables and Grading
+There are three deadlines for this project.
+For the first deadline, your deliverables are:
+● the team contract;
+● the abstract designs and discussion;
+● the client/server protocol;
+● and the usability design.
+This design deliverable should be submitted by committing one PDF to the deliverables
+folder of your project repository. For your user interface sketches, you should either scan the
+files and place them in your PDF, or you may hand in paper copies of the sketches (keep and
+use your originals!) to a TA.
+Project 3: Instant Messaging
+For the second deadline, you will meet with your TA, and your
+deliverables are:
+● the code designs and discussion;
+● the testing strategy;
+● and a demo of some working portion of the project that demonstrates significant effort
+towards understanding a critical or high-risk area of the design.
+The code designs and testing strategy must be submitted by 11am on December 3 as one
+PDF in the deliverables folder of your repository. The demo will take place at the meeting
+with your TA.
+Your demo might show, for example, a basic server that sends and receives messages but
+without a GUI client (see the the hints about telnet). Or you might have a working basic GUI
+with no server backend but a simple API for connecting to one. Talk to your TA beforehand if
+you are unsure about what is sufficient.
+The meeting will also include discussion of the design deliverables from the first two deadlines.
+For the third and final deadline, your deliverables are:
+● the implementation;
+● the tests;
+● the testing report;
+● and your reflections on the project.
+The report and reflections should be committed as one PDF in the deliverables folder.
+The grading breakdown is as follows:
+● 30% for the abstract design, protocol, and usability design
+● 25% for the code design, initial demo, and testing strategy
+● 35% for implementation and testing
+● 10% for reflection
+Awards
+Project 3: Instant Messaging
+The course staff will judge and award prizes to teams whose instant messaging systems
+embody exemplary design and implementation.
+You may submit your project for prize consideration on Monday December 8 during
+lecture time, 11am-12:30pm, in 32-G825. Your team will give a 5-minute presentation to
+the course staff in which you demonstrate your system and describe its design. You must
+commit your work (up to that point) to Subversion by 11 am on December 8. You are not
+required to give this presentation (but then you won't win anything, either). And everyone
+can continue to work on the project until the final deadline, but only the work demonstrated
+in this presentation will be considered for prizes.
+Serious award contenders should consider going above and beyond the required specification
+to implement their own extensions.
+You might add standard instant messaging features like away messages, auto-replies, offline
+messaging, password-protected accounts, user icons, graphical emoticons... or you might
+integrate voice chat, a shared whiteboard, encrypted conversations with perfect forward
+secrecy, or something as yet unheard of!
+Hints
+Defining a conversation. Part of your job is to determine what a conversation means. For
+example, does a conversation have a name, and can other users join the conversation by
+specifying the name? Is it like a chat room, that people can enter and exit? In that case, can
+a conversation be empty (a chatroom can), waiting for users?
+Or is a conversation more like a phone call, where a person "dials" another person? In that
+case, can the receiving party deny the conversation?
+However you define a conversation, remember to keep it simple for your first iteration. You
+can always extend your program with interesting ideas if you have time left.
+Designing a protocol. You must also devise a client/server protocol for this project. You
+should strongly consider using a text-based protocol, which may be easier for testing and
+debugging.
+Services that use plaintext protocols — e.g. HTTP or SMTP — can talk to a human just as well
+as another machine by using a client program that sends and receives characters. Such a
+client program already exists on almost all operating systems, called telnet. You can run
+Project 3: Instant Messaging
+telnet by opening a command prompt and typing telnet hostname port. The lab gives you
+some experience with using telnet.
+Handling multiple clients. Since instant messaging is useless without at least two people,
+your server must be able to handle multiple clients connected at the same time. The Friendly
+server you'll develop in the lab gives you some starting code, but note that Friendly doesn't
+need its clients to interact or share any state. Your server will certainly need to do that. One
+reasonable design approach follows the Friendly model (using one thread for reading input
+from each client) but adds a central state machine representing the state of the server (using
+one more thread, to which each of the client threads pass messages through a shared
+queue).
+Read the socket documentation referenced in the lab to understand how network sockets
+operate in Java. Consider how, for example, the server will write to clients while at the same
+time awaiting messages from them.
+Design for safe concurrency. In general, making an argument that an implementation is
+free of concurrency bugs (like race conditions and deadlocks) is very difficult and error-prone.
+The best strategy therefore is to design your program to allow a very simple argument, by
+limiting your use of concurrency and especially avoiding shared state wherever possible. For
+example, one approach is to use concurrency only for reading sockets, and to make the rest
+of the design single-threaded.
+And note that, even though user interfaces are concurrent by nature, Swing is not thread
+safe. Understand what code will run in the main thread, threads you explicitly spin, or the
+Swing event dispatching thread. Recommended reading: Threads and Swing.
+Design for testability. To make it possible to write unit tests without having to open socket
+connections and parse streams of responses, you should design your state machine(s) in such
+a way that they can be driven directly by a unit test -- either by calling methods, or by
+putting messages into a queue read by the state machine's thread.
+Testing GUIs is particularly challenging. Follow good design practice and separate as much
+functionality as possible into modules you can test using automated mechanisms. You should
+maximize the amount of your system you can test with complete independence from any GUI.
+Another useful testing technique is the idea of a stub (method stubs, mock objects). To test
+one component of your system in isolation, you can create trivial implementations of the
+other components with which it is coupled. This might allow you to test your server without
+opening network connections, or to test your client backend with automated rather than GUI
+Project 3: Instant Messaging
+tests.
+Implementation. Develop in iterations. Focus on important modules first, and defer making
+cosmetic improvements to your user interface until after all the code is well-organized and
+thoroughly tested. Make use of assertions.

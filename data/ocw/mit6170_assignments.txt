@@ -1,0 +1,219 @@
+Assignments for 6.170 (MIT OCW, Spring 2013). This line is a note and is ignored.
+=== P1 | project | Project 1: Web Analytics
+Project 1: Web Analytics
+Overview
+
+In this project, you will build a web analytics service that provides people who run websites with data about the type and frequency of visits. Two kinds of analytics tools are available. One kind, which you will build, is a service such as Google Analytics or Stat Counter that provides a code snippet to insert in any web page, and then tracks visits to that page. Another kind, such as AWStats, operates purely on the server side, and tracks requests either by running as part of the application, or by processing web server log files. Open source implementations such as Piwik and OWA offer one or both forms of tool.
+Deliverables
+Phase 1: Getting Going
+
+Minimal requirements. In this phase, you will implement only the server side of the service. It should support two kinds of HTTP requests:
+
+    http://myanalytics.com/sites/123/visits registers a visit to site 123.
+
+    http://myanalytics.com/sites returns a simple HTML page listing the identifier numbers of visited sites and the number of visits to each site.
+
+Feel free to add other requests (e.g., to create a site) if you need them, and (just for now) to abuse the HTTP verb conventions by using GET for both of these requests, so they can be easily tested by just typing them into a browser’s address bar. Note that “123” is some number representing the site; it is not something more complicated (like a URL).
+
+Checklist items. Of the items specified on the project checklist, you should include in this phase:
+
+    Programming/Basic Coding
+
+Phase 2: Minimum Viable Product
+
+Minimal requirements. In this phase, you will add enough features for a basic, working analytics engine:
+
+    Page-specific data: Your service should be able to track visits to individual pages within a site.
+    JavaScript snippet: You should provide a JavaScript snippet that can be inserted into any webpage to notify the service of visits automatically. (We will give you an example of a suitable snippet.)
+    Visit duration: Your service should track the average visit duration for each page that it tracks.
+
+Checklist items. In addition to refining the items already present from the previous phase, include additionally:
+
+    Programming/Modularity, Design/Overview, Design/Concepts, Design/Challenges
+
+Phase 3: (not required for this project)
+Phase 4: Critique
+
+Minimal requirements. This phase involves no new design or implementation work. Instead, you will write two short critiques: one of your own work, and one of your peer’s work. In addition to checking the critiques into your own repository, you should post your peer critique as one or more issues in your peer’s repository.
+
+Checklist items. You should include in this phase:
+
+    Design/Evaluation/Critique for each of the two projects
+    Design/Evaluation/Reflection for your own project
+
+Hints
+
+Get going early. We very strongly recommend that you get going as soon as you can, so you can get help from the teaching staff and from your colleagues using the Piazza forum, and make good use of the lab hours over the weekend. Whatever you do, do not leave work until the night of the deadline!
+
+Continuous deployment. All phases of all projects are to be checked in to your repository and deployed on Heroku. We recommend that you work in a “continuous deployment” mode, pushing to GitHub and deploying repeatedly. This will give you confidence and make it easier for you to assess your progress.
+
+Exploit Rails support for REST. If you think of this application in RESTful terms, you will be able to exploit the built-in support for REST in Rails. In particular, in the first phase, you will be able to generate most of the code with a single scaffolding command.
+
+Transitioning to Phase 2. Do not expect to keep your code from Phase 1 when you build Phase 2; it might be easier just to start again. In particular, Phase 1 is intended just to get you going, and not to bias you towards any particular way of representing sites or visits.
+
+JavaScript Snippet. We are providing you with a sample JavaScript snippet, which you can modify and use in your code.
+
+[JS] Getting information about the current page. You can find information about the current page in JavaScript via the location variable. For example, try opening a console on a page like http://www.reddit.com/r/mit and see what location.pathname gets you. (You can also just type location and click the dropdown on the returned object to explore the other properties.)
+
+[JS] Running code when a user leaves the page. You will find the following snippet useful to run code right before leaving the page:
+
+window.onbeforeunload = function() {    // Your code here! }
+
+[JS] Synchronous AJAX requests. In order to force the browser to wait for the request to complete before leaving the page, inside the onbeforeunload handler you will need to set the async parameter of the open() call to false:
+
+xhr.open('POST', '/your/url', false);
+
+If you do not, the browser will (most likely) unload the page before the request is able to finish.
+
+=== P2 | project | Project 2: Shopping Cart
+Project 2: Shopping Cart
+Overview
+
+Online stores (Amazon, Newegg, Zappos, Half.com) offer the notion of a shopping cart. Just as MP3 players often have a “rewind” button even though the physical notion of rewinding no longer exists, shoppers have come to expect an online cart to have the same features as a physical cart: temporarily holding items until purchase, removals and additions, and so on. Website visitors can usually place items in a cart before logging in or identifying themselves, and may be able to retain a cart’s contents across sessions. Large retailers typically implement their own shopping cart applications, but smaller ones often use third-party services, such as Opencart, Shopify, PayPal, and Stripe.
+
+In this project, you will implement a basic shopping cart application with two user interfaces: one for a shopper (for purchasing items), and one for a shopkeeper (for editing the catalog of items and for reviewing orders).
+Deliverables
+Phase 1: Design of Minimum Viable Product
+
+Minimal requirements. In the first two phases, you’ll design and implement a basic shopping website with these minimal requirements:
+
+    User interface for shopper, including the ability to add and remove items from cart, view cart, and place order (but no real payment needed)
+    User interface for shopkeeper, including the ability to create and modify catalog of items and prices, and to view recent orders from customers
+
+In the first phase, you will construct only a paper design.
+
+Checklist items. Of the items specified on the project checklist, you should include in this phase:
+
+    Design: all parts, except for Design/Evaluation, and notes on code design (under Design/Challenges).
+
+Phase 2: Implemention of Minimum Viable Product
+
+In this phase, you will build an implementation of the design you did in Phase 1.
+
+Checklist items. Of the items specified on the project checklist, you should include in this phase:
+
+    Programming: all sections, except unit tests
+    Design: a revised version that includes a fuller Design/Challenges section
+
+Phase 3: Your Own Shopping Cart
+
+Minimal requirements. In this phase, you will complete your project by polishing it and adding one feature from the list below:
+
+    Saved items: Items or entire carts can be saved for purchase later.
+    Shopping lists: Lists can be shared between shoppers (e.g., for gifts).
+    Internationalization: System allows multiple languages.
+    Web service: Code is refactored so it can be used as a service rather than a custom site.
+
+Checklist items. Of the items specified on the project checklist, you should include in this phase:
+
+    Programming: all parts, excluding unit tests
+    Design: all parts (except for design critique), expanded for the new functionality
+
+Phase 4: Critique
+
+Minimal requirements. This phase involves no new design or implementation work. Instead, you will write two short critiques: one of your own work, and one of your peer’s work. In addition to checking the critiques into your own repository, you should post your peer critique as one or more issues in your peer’s repository.
+
+Checklist items. You should include in this phase:
+
+    Design/Evaluation/Critique for each of the two projects
+    Design/Evaluation/Reflection for your own project
+
+Hints
+
+Strategy. In this project, you are asked to do a design on paper before you do any implementation at all. This is intended to give you some experience focusing on high-level design issues before you jump into coding details. If you do it right, you should be able to save yourself time overall (so that the whole project takes less time than it would if you just hacked the code). To get this advantage, you will need to use the design analysis as an opportunity to (a) focus on exactly what you plan to do and why, eliminate any extraneous complexities, make suitable generalizations, and figue out how to exploit the features of Rails (e.g., RESTful resources); (b) prepare an object model that can be transformed very directly into code; and (c) anticipate some of the tricky issues that might derail the implementation. Your design document should be clear and complete enough that someone else could implement your design without requiring more information from you.
+
+Security. At this point, we have not yet covered security threats and mitigations, so we do not expect your analysis or your code to reflect an understanding of technical attacks such as cross site request forgery. We do, however, expect you to be able to address the problem-specific security concerns and implement appropriate mechanisms (for example, using passwords to protect accounts, and using access control to prevent unauthorized access to other people’s records).
+
+Double submission. Early shopping carts suffered from the problem that pressing the checkout button twice could cause the order to be made twice. Make sure you handle this and related cases properly.
+=== P3 | project | Project 3: Network Stickies
+Project 3: Network Stickies
+Overview
+
+Sticky notes have been used for a long time to keep track of small snippets of information in an accessible manner. First introduced in 1980, they were marketed by 3M as Post-it notes. The idea was carried over to the virtual desktop, with Apple’s Stickies and later Windows 7’s Sticky Notes. The idea was to create small windows on the screen like Post-it notes where the users can place reminders, notes, clippings, etc.
+
+Now there are note-taking applications on the web (such as listhings and onlinestickynotes) that persist notes on a central server, allowing you to retrieve and update them on any device with internet access. EverNote is similar, but runs as a standalone app, is more structured, and includes a widget for extracting snippets from web pages.
+
+In this project, you will design and implement your own sticky note application as a JavaScript program running client side, with state persisted on a web server.
+Deliverables
+
+There are four phases to the project. In the first phase, you will lay the groundwork for the second and third phases by constructing a design for both versions. The second phase is an implementation of a “minimal viable product”—a very basic stickies app. The third phase is an extension of your implementation with some features of your own invention. In the fourth phase, you will review your work and the work of a peer.
+
+This is the first project that requires you to include unit tests. You are required to write tests only for controller actions that correspond to Ajax requests.
+
+Minimal requirements. Your minimal viable product, implemented in the second phase, should run as a client-side application; that is, it should load as a single web page and should subsequently issue only asynchronous calls.
+
+Furthermore, it should allow the user at least to:
+
+    Create, view and edit a collection of textual notes
+    Persist the notes on a centralized server
+    Keep notes private from other users
+
+Extension. It is entirely up to you what feature or features you choose to add in the third phase. A portion of your grade will be allocated to the quality of your feature(s); emphasis will be placed on clarity and integrity of design and implementation. Novelty will be rewarded, with bonus points that will compensate for lost functionality points, but is not required. Examples of suitable features might include: specialized note types (such as calendar reminders); a search mechanism; automatically arranging notes visually in some way; or excerpting content from web pages.
+Phase 1: Design of Minimum Viable Product
+
+In the first phase, you will construct a design for both the minimal viable product and for your extension. Your design must very clearly separate the two parts.
+
+Checklist items. Of the items specified on the project checklist, you should include in this phase:
+
+    Design: all parts, except for Design/Evaluation, and notes on code design (under Design/Challenges)
+
+Phase 2: Implementation of Minimum Viable Product
+
+In the second phase, you will implement your minimal viable product. You will need to revise your design as you discover flaws during implementation. Your revised design document must include clear indications of which parts have changed.
+
+Checklist items. Of the items specified on the project checklist, you should include in this phase:
+
+    Programming: all parts, including unit tests
+    Design: all parts (except for design critique)
+
+Phase 3: Implementation of Extension
+
+In the third phase, you will implement your extension. As before, your revised design document must include clear indications of which parts have changed.
+
+Checklist items. Of the items specified on the project checklist, you should include in this phase:
+
+    Programming: all parts, including unit tests
+    Design: all parts (except for design critique)
+
+Phase 4: Critique
+
+Minimal requirements. This phase involves no new design or implementation work. Instead, you will write two short critiques: one of your own work, and one of your peer’s work. In addition to checking the critiques into your own repository, you should post your peer critique as one or more issues in your peer’s repository.
+
+Checklist items. You should include in this phase:
+
+    Design/Evaluation/Critique for each of the two projects
+    Design/Evaluation/Reflection for your own project
+
+=== FINAL | project | Final Project
+Final Project Guidelines
+Division of Labor
+
+You can divide the work amongst team members as you please, with two caveats: (a) the amount of work per team member must be roughly the same; and (b) each team member must participate in all software development activities (i.e., design, coding, testing, documenting, etc.).
+Mentoring Meetings
+
+Each team will be assigned two teaching assistants, one as a lead mentor, and the other as a consultant mentor. You will have weekly one-hour meetings with the two mentors at times to be mutually agreed upon. Each team is responsible for producing agendas, meeting notes, and progress reports as specified in the project checklist. For each meeting, the team should have prepared in advance a report of progress in the previous week (in relation to the milestones of the project plan and particular items planned for the week in the last meeting), and should also bring an agenda consisting of a list of issues to be discussed. During the meeting, a member of the team should take brief notes. After the meeting, the agenda should be augmented with the meeting notes and any particular outcomes such as decisions made, alterations to the project plan, etc. The agenda and progress report should be checked in to the project repository before the meeting, and the meeting minutes shortly after.
+Project Pitch
+
+Near the start of the project, your team will present a very brief pitch to the whole class to explain why you are doing the project, what the key concepts and features are, and how you plan to mitigate the risks you anticipate.
+
+The length of the presentation will be determined by the number of teams, but is expected to be between 3 and 5 minutes.
+Minimum Viable Product (MVP)
+
+Early on, your team will complete and demonstrate to the class a minimum viable product (MVP). The purpose of the MVP is to get some code up and running to ensure that your development process is working, that you can integrate the work of all the team members, and also as a proof of concept to try out ideas when you still have time for a course correction. You can use the MVP as a way to mitigate risk by starting with an implementation of the feature you are most concerned about.
+
+The MVP is to be specified in the project plan as a subset of the features and concepts described in more detail in the design document. You do not need to do a separate, standalone design for the MVP, but should be able to specify it just by listing concepts or features to be included or excluded.
+
+You are not required to provide specs and test cases for your MVP. This is to allow you to use the MVP as an opportunity to conduct lightweight experiments with different implementation ideas. That said, you should be very wary of incurring “technical debt”: if you write lots of poorly commented and sloppy code, it will be very painful to fix it later. So at the very least, make use of TODO and FIXME comments to mark areas of code that will need to be revisited.
+Teamwork Plan and Team Contract
+
+Writing the teamwork plan gives you a chance as a team to think about your goals for the project, what challenges you will face, and what you will do if things do not go according to plan. Do not waste the chance by treating it as a chore to be dealt with perfunctorily. The team contract should be the result of an open and candid discussion amongst team members about what your individual aspirations and commitments are; if you do this thoughtfully, it will reduce the chance that your project will be derailed by misunderstandings and disagreements.
+Peer Reviews
+
+At the end of your project, you will write a reflection as a team on the technical decisions (under Design) and on the team planning aspect (under Teamwork). You will also each individually write a brief peer review of each of the other team members, each about 50 words long, with some constructive comments on how that member might improve their teamwork and technical skills. These comments should be shared openly amongst the team and submitted in the final check-in. They will not be used to adjust individual grades, but if the comments are well done, the team as a whole will receive credit accordingly.
+Grading and Awards
+
+The grading breakdown of the various deliverables is given in the final project schedule. In general, all members of a team will receive the same grade unless there are extenuating circumstances. The programming portion of the grade will include an evaluation of the functionality of the application (not listed as a separate item in the project checklist, but which is obviously important).
+
+Awards will be given for the best projects; nominations are not required.
+=== NANOQUIZ | quiz | Nanoquizzes
+For most class sessions, you will be asked to read one or more short articles in advance. The class will begin with a tiny “nanoquiz” comprising a few multiple choice questions about the readings. Nanoquizzes + Participation     10%

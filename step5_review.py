@@ -28,7 +28,7 @@ from coursealign.agent2 import Agent2Config
 from coursealign.evaluate import Run, load_gold, score_pipeline, score_runs
 from coursealign.graph import build_graph, graph_api, initial_state
 from coursealign.llm import CachedLLM, FakeLLM, LLMUnavailable, build_llms, stopped_message
-from coursealign.loader import load_course_data
+from coursealign.loader import load_course_data, stand_in_courses
 from coursealign.oracle import LabelJudge
 from coursealign.review import (
     PAIR_DECISIONS, correction, decide, learned_terms, load_reviews, review_queue, save_reviews,
@@ -198,6 +198,8 @@ def main() -> None:
     gold = load_gold(ROOT / "data" / "gold" / "alignment_labels.json")
     courses = [c for c in load_course_data(ROOT / "data" / "syllabi", ROOT / "data" / "assignments")
                if c["syllabus"] is not None]
+    if args.llm == "fake":
+        courses = stand_in_courses(courses, None)          # the stand-ins only know the practice courses
     base_rules = Rules.from_file(RULES)
 
     if args.llm == "fake":

@@ -113,6 +113,24 @@ def load_course_data(
     return courses
 
 
+# The three synthetic courses the stand-in agents' answers (tests/fixtures) are
+# written for. Stand-in runs, the tests and the demo workspace use only these;
+# real courses, like the OCW test set, need a real model.
+PRACTICE_COURSES = ("CS3200", "CS4530", "CS4550")
+
+
+def stand_in_courses(courses: list[dict], wanted: str | None) -> list[dict]:
+    """The courses a stand-in run can use: the practice courses, unless
+    --courses named some, which then all have to be practice courses."""
+    if not wanted:
+        return [c for c in courses if c["course_id"] in PRACTICE_COURSES]
+    other = [c["course_id"] for c in courses if c["course_id"] not in PRACTICE_COURSES]
+    if other:
+        raise SystemExit(f"The stand-in agents only know {', '.join(PRACTICE_COURSES)}. "
+                         f"Run {', '.join(other)} with a real model, like --llm gemini.")
+    return courses
+
+
 def pick_courses(courses: list[dict], wanted: str | None) -> list[dict]:
     """Only the courses named in `wanted` ("MIT6005,MIT6170"), so a held-out
     test set can be run and scored on its own. None or "" keeps them all."""

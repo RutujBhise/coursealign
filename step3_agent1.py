@@ -22,7 +22,7 @@ from coursealign.agent1 import Agent1Config
 from coursealign.evaluate import Run, label_runs, load_gold, score_runs
 from coursealign.graph import build_graph, graph_api, initial_state
 from coursealign.llm import FakeLLM, LLMUnavailable, build_llms, stopped_message
-from coursealign.loader import load_course_data, pick_courses
+from coursealign.loader import load_course_data, pick_courses, stand_in_courses
 from coursealign.models import ExtractionSource
 from coursealign.stage0 import Decision, Rules, Stage0Result, rule_flagged_gaps
 
@@ -98,6 +98,8 @@ def main() -> None:
     courses = [c for c in load_course_data(ROOT / "data" / "syllabi", ROOT / "data" / "assignments")
                if c["syllabus"] is not None]
     courses = pick_courses(courses, args.courses)
+    if args.llm == "fake":
+        courses = stand_in_courses(courses, args.courses)  # the stand-ins only know the practice courses
 
     fake = args.llm == "fake"
     llm = FakeLLM.from_file(ROOT / "tests" / "fixtures" / "agent1_fake_replies.json") if fake else build_llms(args.llm)[0]
